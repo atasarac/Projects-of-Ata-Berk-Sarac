@@ -1,7 +1,7 @@
 # Continuous Branch
 I believe that one understands what this branch includes but I will try to introduce it so that there is little confusion.
 
-Using the arXiv top-level categorization, this branch will include:
+Using the arXiv top-level categorization, this branch includes:
 - Analysis of PDEs
 - Classical Analysis and ODEs
 - Complex Variables
@@ -16,4 +16,4 @@ Using the arXiv top-level categorization, this branch will include:
 - Spectral Theory
 - Symplectic Geometry
 
-I won't be writing about most of the above because I simply don't know enough about them, but if I do write on the categories above, then they are intended be in this folder.
+I won't be writing about most of the above because I simply don't know enough about them, but if I do write about them, then they are supposed to be in this folder.
