@@ -1,5 +1,7 @@
 # Intertwinement of Branches
+I believe that one understands what this branch includes but I will try to introduce it so that there is little confusion.
 
+Using the arXiv top-level categorization, this branch includes:
 - Algebraic Geometry
 - Algebraic Topology
 - K-Theory and Homology
