@@ -1,1 +1,11 @@
 # Discrete Branch
+- Category Theory
+- Combinatorics
+- Commutative Algebra
+- Group Theory
+- Logic
+- Number Theory
+- Operator Algebras
+- Quantum Algebra
+- Representation Theory
+- Rings and Algebras
