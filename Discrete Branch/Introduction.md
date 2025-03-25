@@ -13,3 +13,4 @@ Using the arXiv top-level categorization, this branch includes:
 - Representation Theory
 - Rings and Algebras
 
+I won't be writing about most of the above because I simply don't know enough about them, but if I do write about them, then they are supposed to be in this folder.
