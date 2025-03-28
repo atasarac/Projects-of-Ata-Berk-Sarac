@@ -10,4 +10,6 @@ Rooted in smooth structures, limits, infinite-dimensional spaces, and analytical
 - Geometric Analysis
 - Measure Theory
 - Metric Geometry
-- Smooth Dynamical Systems (continuous flows, ODEs)
+- Smooth Dynamical Systems
+
+I don't know each field equally and so I will not write about most of them, but if I investigate a paper on one of the above, it will belong to this branch.
