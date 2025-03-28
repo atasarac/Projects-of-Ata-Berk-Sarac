@@ -1,13 +1,11 @@
-# Intertwinement of Branches
-I believe that one understands what this branch includes intuitively, but I will try to introduce it so that there is little confusion.
-
+# Branch 3
 Using the arXiv top-level categorization, this branch includes:
 - Algebraic Geometry
 - Algebraic Topology
 - Category Theory
 - Dynamical Systems
 - General Mathematics
-- Group Theory
+- Group Theory (Lie groups)
 - Information Theory
 - K-Theory and Homology
 - Mathematical Physics
