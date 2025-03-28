@@ -1,20 +1,13 @@
-# Continuous Branch
-I believe that one understands what this branch includes intuitively, but I will try to introduce it so that there is little confusion.
+# Branch 1
+Rooted in smooth structures, limits, infinite-dimensional spaces, and analytical methods.
 
-Using the arXiv top-level categorization, this branch includes:
 - Analysis of PDEs
 - Classical Analysis and ODEs
 - Complex Variables
 - Differential Geometry
-- Dynamical Systems
-- Functional Analysis
-- General Topology
-- Geometric Topology
-- Mathematical Physics
+- Functional Analysis (includes Operator Algebras, e.g., C*-algebras)
+- General (Point-Set) Topology
+- Geometric Analysis (merges aspects of Spectral Theory and Symplectic Geometry)
+- Measure Theory (foundation for Probability and Integration)
 - Metric Geometry
-- Numerical Analysis
-- Operator Algebras
-- Spectral Theory
-- Symplectic Geometry
-
-I won't be writing about most of the above because I simply don't know enough about them, but if I do write about them, then they are supposed to be in this folder.
+- Smooth Dynamical Systems (continuous flows, ODEs)
