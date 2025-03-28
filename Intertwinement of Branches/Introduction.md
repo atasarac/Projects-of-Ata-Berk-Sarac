@@ -5,9 +5,9 @@ Using the arXiv top-level categorization, this branch includes:
 - Algebraic Geometry
 - Algebraic Topology
 - Category Theory
-- K-Theory and Homology
 - General Mathematics
 - Information Theory
+- K-Theory and Homology
 - Optimization and Control
 - Probability
 - Number Theory
