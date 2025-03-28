@@ -13,6 +13,7 @@ Using the arXiv top-level categorization, this branch includes:
 - Mathematical Physics
 - Metric Geometry
 - Numerical Analysis
+- Operator Algebras
 - Spectral Theory
 - Symplectic Geometry
 
