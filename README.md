@@ -5,4 +5,4 @@ I am a student majoring in math. I opened this repository to introduce myself to
 I divide math into three main branches as a high-level map, though specific fields might shift based on context. I realize that mathematics resists rigid categorization.
 
 ### Note 2
-For a taste of history, check out [MacTutor Index](https://mathshistory.st-andrews.ac.uk/), and _**Mathematics and Its History**_ by John Stillwell. Also, [Paul's Online Notes](https://tutorial.math.lamar.edu/) by Paul Dawkins is a good resource to learn basic stuff.
+For a taste of history, check out [MacTutor Index](https://mathshistory.st-andrews.ac.uk/) by Edmund Robertson and John O'Connor, and _**Mathematics and Its History**_ by John Stillwell. Also, [Paul's Online Notes](https://tutorial.math.lamar.edu/) by Paul Dawkins is a good resource to learn basic stuff.
