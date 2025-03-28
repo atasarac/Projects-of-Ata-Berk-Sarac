@@ -7,7 +7,7 @@ Rooted in smooth structures, limits, infinite-dimensional spaces, and analytical
 - Differential Geometry
 - Functional Analysis (includes Operator Algebras, e.g., C*-algebras)
 - General (Point-Set) Topology
-- Geometric Analysis (merges aspects of Spectral Theory and Symplectic Geometry)
-- Measure Theory (foundation for Probability and Integration)
+- Geometric Analysis
+- Measure Theory
 - Metric Geometry
 - Smooth Dynamical Systems (continuous flows, ODEs)
