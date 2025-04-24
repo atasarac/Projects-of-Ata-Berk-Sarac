@@ -1,4 +1,4 @@
-# Branch 3
+# Intertwinement of Branches
 Fields inherently bridging discrete/continuous or requiring both perspectives.
 
 - Algebraic Geometry
