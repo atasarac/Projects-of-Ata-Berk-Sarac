@@ -15,5 +15,3 @@ Fields inherently bridging discrete/continuous or requiring both perspectives.
 - Quantum Algebra (e.g., quantum groups – algebraic structures with analytic duality)
 - Representation Theory
 - K-Theory and Homology
-
-I don't know each field equally and so I will not write about most of them, but if I investigate a paper on one of the above, it will belong to this branch.
