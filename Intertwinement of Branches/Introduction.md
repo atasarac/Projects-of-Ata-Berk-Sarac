@@ -1,17 +1,21 @@
 # Intertwinement of Branches
-Fields inherently bridging discrete/continuous or requiring both perspectives.
+The examples below are controversial and I am open to edit this if necessary, I don't what a majority of the fields below study exactly, I simply added them here because of what I've seen online, but I believe that they belong here. 
+
+Fields inherently bridging discrete and continuous branches or requiring both perspectives. To better understand what is meant, here are some categories in and out of arXiv that I'd consider in this branch:
 
 - Algebraic Geometry
 - Algebraic Topology
 - Category Theory
 - Dynamical Systems
-- Lie Theory (Lie Groups, Lie Algebras – smooth groups with discrete symmetry)
-- Mathematical Physics (Quantum Field Theory, Lattice Models)
+- Lie Theory
+- Mathematical Physics
 - Number Theory
 - Numerical Analysis
 - Optimization and Control
 - Probability
 - Statistics
-- Quantum Algebra (e.g., quantum groups – algebraic structures with analytic duality)
+- Quantum Algebra
 - Representation Theory
 - K-Theory and Homology
+
+The above categories are given as an example. I'll be writing stuff on one or two (if I'm lucky) of them in this repository.
