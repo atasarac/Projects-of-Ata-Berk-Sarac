@@ -1,5 +1,5 @@
 # Continuous Branch
-Fields that are rooted in smooth structures, limits, infinite-dimensional spaces, and analytical methods.
+Fields that are rooted in smooth structures, limits, infinite-dimensional spaces, and analytical methods. To better understand what I mean, here are categories in arXiv that I'd consider in this branch:
 
 - Analysis of PDEs
 - Classical Analysis and ODEs
