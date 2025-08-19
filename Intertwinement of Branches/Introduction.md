@@ -17,5 +17,3 @@ Fields inherently bridging discrete and continuous branches or requiring both pe
 - Quantum Algebra
 - Representation Theory
 - K-Theory and Homology
-
-The above categories are given as an example. I'll be writing stuff on one or two (if I'm lucky) of them in this repository.
