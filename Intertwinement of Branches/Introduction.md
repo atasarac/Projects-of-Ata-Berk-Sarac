@@ -1,5 +1,5 @@
 # Intertwinement of Branches
-The examples below are controversial and I am open to edit this if necessary, I don't what a majority of the fields below study exactly, I simply added them here because of what I've seen online, but I believe that they belong here. 
+The examples below are controversial and I am open to edit them if necessary, I don't what a majority of the fields below study exactly, I simply added them as examples because of what I've seen online and believe that they belong here.
 
 Fields inherently bridging discrete and continuous branches or requiring both perspectives. To better understand what is meant, here are some categories in and out of arXiv that I'd consider in this branch:
 
