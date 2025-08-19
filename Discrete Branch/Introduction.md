@@ -1,5 +1,5 @@
 # Discrete Branch
-Fields focusing on finite/countable structures, algorithms, and algebraic/combinatorial methods.
+Fields focusing on finite/countable structures, algorithms, and algebraic/combinatorial methods. To better understand what is meant, here are categories in and out of arXiv that would be considered in this branch:
 
 - Combinatorics (encompassing Graph Theory, Enumerative Combinatorics)
 - Discrete Algebra (Finite Group Theory, Lattice Theory, Commutative Algebra)
