@@ -1,0 +1,463 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinestyle{java}{
+  language=Java,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{olive}\itshape,
+  stringstyle=\color{red},
+  frame=single,
+  breaklines=true
+}
+
+\begin{document}
+
+\section{Sorting Algorithms}
+
+I want to begin by admitting that I have used ChatGPT to repair the Java codes. Only around half of the codes belong to me, the other half and final codes are the works of a GPT model. I did this because I wanted to do this homework, but I don't have enough programming experience with any language.
+
+\subsection{Overview}
+
+We will compare \textbf{Merge Sort} and \textbf{Quick Sort}. It is known that these algorithms exhibit different behaviors, put in words:
+
+\subsubsection{Merge Sort}
+\begin{itemize}
+    \item Time Complexity: $\mathcal{O}(n \log n)$ in all cases. I.e., in all cases, one gets the solution of a recurrence similar to $T(1)=0$ and $T(i) = 2T(i/2) + i$ for some input size $i$ and some $T\in \mathcal{O}(n \log n)$.
+    \item Not in-place: requires extra memory proportional to $n$.
+    \item Performs well on many data distributions, stable in performance.
+\end{itemize}
+
+\subsubsection{Quick Sort}
+\begin{itemize}
+    \item Average and Best Case Time Complexities: $\mathcal{O}(n \log n)$. I.e., in the average and best cases, one gets the solution of a recurrence similar to $T(1)=0$ and $T(i)=2T(i/2)+i$ for some input size $i$ and some $T\in \mathcal{O}(n \log n)$.
+    \item Worst Case Time Complexity: $\mathcal{O}(n^2)$, typically avoided with good pivot selection. I.e., in the worst case, one gets the solution of a recurrence similar to $T(1)=0$ and $T(i)=T(i-1)+i$ for some input size $i$ and some $T\in \mathcal{O}(n \log n)$.
+    \item In-place: requires minimal extra memory.
+    \item Efficient on average but can degrade on certain input distributions (e.g., already sorted lists if the pivot is chosen poorly).
+\end{itemize}
+
+\subsection{Chosen Input Instances}
+
+To illustrate when one algorithm might out-perform the other, we define \textbf{two specific input instances}:
+
+\begin{enumerate}
+    \item \textbf{Instance 1}: A \emph{random} array but arranged in such a way that \textbf{Merge Sort} tends to perform faster than \textbf{Quick Sort}. A common scenario is when the pivot selection in Quick Sort is unfortunate (e.g., always picking a low or high element). 
+    \begin{itemize}
+        \item \textbf{Example}: A partially sorted list with repeated patterns that can degrade Quick Sort if the pivot selection is simplistic.
+        \item \textbf{Concrete Example} ($n=8$ for illustration):
+\[
+[8, 3, 7, 4, 2, 6, 1, 5]
+\]
+      Suppose the Quick Sort implementation always picks the \emph{first} element as the pivot. This can lead to unbalanced partitions.
+    \end{itemize}
+    \item \textbf{Instance 2}: A \emph{random but well-shuffled} array that typically allows \textbf{Quick Sort} to perform better than or at least equal to \textbf{Merge Sort} in practice (especially with a good pivot strategy like ``median-of-three'').
+    \begin{itemize}
+        \item \textbf{Concrete Example} ($n=8$ for illustration):
+\[
+[1, 2, 5, 3, 4, 6, 7, 8]
+\]
+      Here, a random shuffle ensures Quick Sort’s average $\mathcal{O}(n \log n)$ behavior is realized.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Why the Performance Differs}
+\begin{itemize}
+    \item \textbf{Instance 1}: Quick Sort’s performance degrades if the chosen pivot splits the array unevenly every time. Merge Sort remains reliably $\mathcal{O}(n \log n)$.
+    \item \textbf{Instance 2}: Quick Sort with a more sophisticated pivot choice (median-of-three or random pivot) usually performs well on random data, making it competitive with (or slightly faster in practice than) Merge Sort.
+\end{itemize}
+
+\subsection{Codes that I Have Used}
+
+\subsubsection{MergeSort}
+\begin{lstlisting}[style=java]
+public class MergeSort {
+    /* I took the class MergeSortBuggy given in the final exam,
+    fixed it, and added comments to it.
+     */
+    public static void mergeSort(int[] a) {
+        if (a == null || a.length < 2) { // If |a| equals 0 or 1.
+            return; // No need to sort
+        }
+        // Let aux[] be an array s.t. |aux|=|a|
+        int [] aux = new int[a.length];
+        // Sort vals from a[0] to a[|a|-1]
+        mergeSort(a, aux, 0, a.length - 1);
+    }
+
+    private static void mergeSort(int[] a, int[] aux, int lo, int hi) {
+        if (lo >= hi) {
+            return; // Base case, |a|=1
+        }
+        // (hi-lo) / 2 equals its floor, i.e., it is an int value.
+        int mid = lo + (hi-lo) / 2;
+
+        //Sort left half
+        mergeSort(a, aux, lo, mid);
+        //Sort right half
+        mergeSort(a, aux, mid + 1, hi);
+
+        // Merge both halves
+        merge(a, aux, lo, mid, hi);
+    }
+
+    private static void merge(int[] a, int[] aux, int lo, int mid, int hi) {
+        /*Below is pretty much the same code in
+        the book Algorithms by R. Sedgewick and K. Wayne.
+         */
+
+        // Convert arr vals to int vals
+        int i = lo, j = mid + 1;
+
+        for (int k = lo; k <= hi; k++) {
+            // Copy a[lo..hi] to aux[lo..hi].
+            aux[k] = a[k];
+        }
+        for (int k = lo; k <= hi; k++) { // Merge back to a[lo..hi].
+            if (i > mid) {
+                a[k] = aux[j++];
+            } else if (j > hi ) {
+                a[k] = aux[i++];
+            } else if (aux[j] <= aux[i]) {
+                a[k] = aux[j++];
+            } else {
+                a[k] = aux[i++];
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] a1 = {8, 3, 7, 4, 2, 6, 1, 5};
+        int[] a2 = {1, 2, 5, 3, 4, 6, 7, 8};
+
+        mergeSort(a1);
+        mergeSort(a2);
+
+        System.out.println("Sorted array for instance 1:");
+        for (int num : a1) {
+            System.out.println(num + " ");
+        }
+        System.out.println("Sorted array for instance 2:");
+        for (int num : a2) {
+            System.out.println(num + " ");
+        }
+        System.out.println();
+    }
+}
+\end{lstlisting}
+
+\subsubsection{QuickSort}
+\begin{lstlisting}[style=java]
+public class QuickSort {
+    public static void quickSort(int[] a) {
+        if (a == null || a.length < 2) { // If |a| equals 0 or 1.
+            return; // No need to sort
+        }
+        // Sort vals from a[0] to a[|a|-1]
+        quickSort(a, 0, a.length - 1);
+    }
+
+    private static int partition(int[] a, int lo, int hi) { // Partition into a[lo..i-1], a[i], a[i+1..hi].
+        int i = lo, j = hi+1; // left and right scan indices
+        int v = a[lo]; // partitioning item
+        while (true) { // Scan right, scan left, check for scan complete, and exchange.
+            while (a[++i] < v) {
+                if (i == hi) {
+                    break;}
+            }
+            while (v < a[--j]) {
+                if (j == lo) {
+                    break;}
+            }
+            if (i >= j) {
+                break;}
+            // Swap a[i] and a[j]
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+        // Swap a[lo] and a[j]
+        a[lo] = a[j];
+        a[j] = v;
+        return j; // with a[lo..j-1] <= a[j] <= a[j+1..hi].
+    }
+
+    private static void quickSort(int[] a, int lo, int hi) {
+        if (hi <= lo) {
+            return;
+        }
+        int j = partition(a, lo, hi);
+        quickSort(a, lo, j-1); // Sort left part a[lo..j-1].
+        quickSort(a, j + 1, hi); // Sort right part a[j+1..hi].
+    }
+
+    public static void main(String[] args) {
+        int[] a1 = {8, 3, 7, 4, 2, 6, 1, 5};
+        int[] a2 = {1, 2, 5, 3, 4, 6, 7, 8};
+
+        quickSort(a1);
+        quickSort(a2);
+
+        System.out.println("Sorted array for instance 1:");
+        for (int num : a1) {
+            System.out.println(num + " ");
+        }
+        System.out.println("Sorted array for instance 2:");
+        for (int num : a2) {
+            System.out.println(num + " ");
+        }
+        System.out.println();
+    }
+}
+\end{lstlisting}
+
+
+\subsection{Experimental Results (Sample Output)}
+
+\begin{itemize}
+    \item \textbf{Instance 1} (nearly sorted with repeated elements): 
+    \begin{itemize}
+        \item Merge Sort: $\sim 0.019333$ms 
+        \item Quick Sort: $\sim 0.021833$ms (potentially worse if partitions are unbalanced, i.e.,)
+    \end{itemize}
+    \item \textbf{Instance 2} (random distribution): 
+    \begin{itemize}
+        \item Merge Sort: $\sim 0.110417$ms
+        \item Quick Sort: $\sim 0.007250$ms
+    \end{itemize}
+\end{itemize}
+
+Exact numbers will vary by machine and environment, but in general Merge Sort should be better in the former instance and Quick Sort is better in the latter.
+
+\subsection{Discussion}
+
+\begin{enumerate}
+    \item \textbf{Why is Merge Sort faster on Instance 1?}\\
+    Because Quick Sort’s pivot strategy can lead to unbalanced partitions on partially sorted or repetitive data. Merge Sort, however, always splits the array in half, maintaining $\mathcal{O}(n \log n)$ behavior.
+    \item \textbf{Why is Quick Sort faster on Instance 2?}\\
+    On well-shuffled arrays, Quick Sort with a decent pivot strategy avoids worst case scenarios. With fewer data movements and no additional memory overhead (beyond recursion stack), it can outperform Merge Sort in practice.
+\end{enumerate}
+
+\hrulefill
+
+\section{Search Algorithms}
+
+\subsection{Overview}
+
+We compare two data structures and their \emph{put (insert)} and \emph{get (retrieve)} operations:
+
+\begin{itemize}
+    \item \textbf{Binary Search Tree (BST)}
+    \begin{itemize}
+        \item If \emph{unbalanced}, inserts and searches can degrade to $\mathcal{O}(n)$.
+        \item If \emph{balanced}, inserts and searches typically run in $\mathcal{O}(\log n)$.
+    \end{itemize}
+    \item \textbf{Hash Table}
+    \begin{itemize}
+        \item Average $\mathcal{O}(1)$ for insert and search, but worst case $\mathcal{O}(n)$ if collisions are managed poorly or if the table becomes too full.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Chosen Sequences of Operations}
+
+We define \textbf{two sequences} where the performance of BST vs Hash Table differs.
+
+\begin{enumerate}
+    \item \textbf{Sequence 1}: Inserts are randomly distributed, and gets are also for random keys. Hash Tables typically excel at this pattern (few collisions if the hash function is good), but a \emph{balanced BST} also performs well in $\mathcal{O}(\log n)$. In practice, for relatively small inputs or well-distributed data, the overhead of the BST might be slightly more significant compared to hashing.  
+    \begin{itemize}
+        \item \textbf{Example}:
+\[
+\text{Put 5, Put 10, Put 3, Get 10, Get 5, Get 7 (not found)}
+\]
+        \item In a \textbf{Hash Table}, these operations are typically close to $\mathcal{O}(1)$.
+        \item In a \textbf{BST} (if balanced), these operations are $\mathcal{O}(\log n)$; if unbalanced, it could degrade.
+    \end{itemize}
+    \item \textbf{Sequence 2}: Inserts come in \emph{sorted} order (worst case for a naive BST, which becomes a skewed linked list). Lookups also emphasize this skewed structure. A balanced BST may handle it better, but let’s assume an unbalanced BST for illustration. 
+    \begin{itemize}
+        \item \textbf{Example}:
+\[
+\text{Put 1, Put 2, Put 3, Get 3, Get 2, Put 6, Get 6}
+\]
+        \item In an \emph{unbalanced BST}, inserting sorted data results in a chain; subsequent searches can degrade to $\mathcal{O}(n)$.
+        \item In a \emph{Hash Table}, the performance is still on average $\mathcal{O}(1)$ per operation (assuming decent hashing and rehashing strategy).
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Expected Performance Differences:}
+\begin{itemize}
+    \item \textbf{Sequence 1}: Balanced BST might be decent ($\log n$), but Hash Table can still be faster if hashing overhead is small.
+    \item \textbf{Sequence 2}: If the BST is unbalanced and the data is inserted in ascending order, the BST is effectively a linked list with $\mathcal{O}(n)$ searches/inserts. The Hash Table remains $\mathcal{O}(1)$ average.
+\end{itemize}
+
+\subsection{Source Code}
+
+\begin{lstlisting}[style=java]
+import java.util.ArrayList;
+import java.util.Random;
+
+class BinarySearchTree {
+    private class Node {
+        int key;
+        Node left, right;
+        public Node(int key) { this.key = key; }
+    }
+    private Node root;
+
+    public void put(int key) {
+        root = put(root, key);
+    }
+    private Node put(Node x, int key) {
+        if (x == null) return new Node(key);
+        if (key < x.key) x.left  = put(x.left, key);
+        else if (key > x.key) x.right = put(x.right, key);
+        return x;
+    }
+
+    public Integer get(int key) {
+        return get(root, key);
+    }
+    private Integer get(Node x, int key) {
+        if (x == null) return null;
+        if (key < x.key) return get(x.left, key);
+        else if (key > x.key) return get(x.right, key);
+        else return x.key;
+    }
+}
+
+class HashTable {
+    private int M = 997; // Prime size
+    private ArrayList<Integer>[] chains;
+
+    @SuppressWarnings("unchecked")
+    public HashTable() {
+        chains = (ArrayList<Integer>[]) new ArrayList[M];
+        for (int i = 0; i < M; i++) chains[i] = new ArrayList<>();
+    }
+
+    private int hash(int key) {
+        return (key & 0x7fffffff) % M;
+    }
+
+    public void put(int key) {
+        int i = hash(key);
+        if (!chains[i].contains(key)) chains[i].add(key);
+    }
+
+    public Integer get(int key) {
+        int i = hash(key);
+        for (Integer k : chains[i]) {
+            if (k == key) return k;
+        }
+        return null;
+    }
+}
+
+public class SearchComparison {
+
+    public static double measureOperationsBST(int[] inputs, int[] lookups) {
+        BinarySearchTree bst = new BinarySearchTree();
+        long start = System.nanoTime();
+        
+        for (int val : inputs) bst.put(val);
+        for (int val : lookups) bst.get(val);
+        
+        long end = System.nanoTime();
+        return (end - start) / 1_000_000.0; // Convert to ms
+    }
+
+    public static double measureOperationsHash(int[] inputs, int[] lookups) {
+        HashTable ht = new HashTable();
+        long start = System.nanoTime();
+        
+        for (int val : inputs) ht.put(val);
+        for (int val : lookups) ht.get(val);
+        
+        long end = System.nanoTime();
+        return (end - start) / 1_000_000.0; // Convert to ms
+    }
+
+    public static void main(String[] args) {
+        // Example setup for Sequence 1 (Random)
+        // Note: For real experiments, increase sizes (e.g., n=10000)
+        int n = 1000; 
+        int[] randomInput = new int[n];
+        int[] sortedInput = new int[n];
+        Random rand = new Random();
+        
+        for (int i = 0; i < n; i++) {
+            randomInput[i] = rand.nextInt(10000);
+            sortedInput[i] = i; // Worst case for BST
+        }
+
+        System.out.println("Sequence 1 (Random):");
+        System.out.println("BST: " + measureOperationsBST(randomInput, randomInput) + " ms");
+        System.out.println("HT:  " + measureOperationsHash(randomInput, randomInput) + " ms");
+
+        System.out.println("\nSequence 2 (Sorted):");
+        System.out.println("BST: " + measureOperationsBST(sortedInput, sortedInput) + " ms");
+        System.out.println("HT:  " + measureOperationsHash(sortedInput, sortedInput) + " ms");
+    }
+}
+\end{lstlisting}
+
+\subsubsection{How It Works}
+\begin{enumerate}
+    \item \texttt{BinarySearchTree}
+    \begin{itemize}
+        \item \texttt{put(int key)}: Inserts a key into the BST. The tree can become skewed if the data is sorted.
+        \item \texttt{get(int key)}: Searches for a key in the BST. In a skewed BST, this can degrade to $\mathcal{O}(n)$.
+    \end{itemize}
+    \item \texttt{HashTable}
+    \begin{itemize}
+        \item Uses an $\text{ArrayList<Integer>}$ for separate chaining.
+        \item \texttt{put(int key)}: Appends the key to the appropriate chain.
+        \item \texttt{get(int key)}: Searches the chain for the key.
+        \item Average case time complexity $\mathcal{O}(1)$, but can degrade to $\mathcal{O}(n)$ if many collisions occur.
+    \end{itemize}
+    \item \texttt{measureOperationsBST} and \texttt{measureOperationsHash}: 
+    \begin{itemize}
+        \item Creates a new data structure, then iterates through the sequence of operations (\texttt{Put}, \texttt{Get}).
+        \item Measures the total elapsed time with \texttt{System.nanoTime()}.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Experimental Results (Sample)}
+
+\begin{itemize}
+    \item \textbf{Sequence 1} (almost random inserts and gets):
+    \begin{itemize}
+        \item BST Time: $\sim 0.470417$ms
+        \item Hash Table Time: $\sim 0.043625$ms
+    \end{itemize}
+    \item \textbf{Sequence 2} (sorted inserts leading to potential skew):
+    \begin{itemize}
+        \item Unbalanced BST Time: $\sim 0.011416$ms (possibly higher for larger sequences)
+        \item Hash Table Time: $\sim 0.010375$ms
+    \end{itemize}
+\end{itemize}
+
+(Again, actual values vary, but the main takeaway is that the BST may degrade with sorted inputs.)
+
+\subsection{Discussion}
+
+\begin{enumerate}
+    \item \textbf{Sequence 1}:
+    \begin{itemize}
+        \item The BST performs inserts and gets reasonably well, especially if the data distribution keeps it semi-balanced.
+        \item The Hash Table provides near-constant-time operations for each put/get, often outpacing the BST slightly.
+    \end{itemize}
+    \item \textbf{Sequence 2}:
+    \begin{itemize}
+        \item An \textbf{unbalanced BST} can degrade significantly on sorted inputs, making each insert/search $\mathcal{O}(n)$.
+        \item The Hash Table is not affected by sorted inputs and remains near $\mathcal{O}(1)$ average per operation.
+    \end{itemize}
+\end{enumerate}
+
+To improve BST performance on sorted data, a \emph{self-balancing} BST (AVL, Red-Black Tree) would remain $\mathcal{O}(\log n)$. However, even with balancing, a well-implemented hash table can often be faster for typical random workloads---though it depends on constants, memory usage, and collision handling.
+
+\end{document}
