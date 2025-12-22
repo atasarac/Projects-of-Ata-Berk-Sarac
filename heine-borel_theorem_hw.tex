@@ -1,0 +1,160 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{calc}
+\usepackage{xassoccnt}
+\usepackage{fontenc}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{enumerate}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{chngcntr}
+\usepackage[inline]{enumitem}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+%\newtheorem
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}{Lemma}[subsection]
+\newtheorem{corollary}{Corollary}[subsection]
+
+\newtheorem{example}{Example}[section]
+\newtheorem{exercise}{Exercise}
+
+\newtheorem{question}{Question}      % define as before
+\makeatletter
+\@addtoreset{question}{section}      % reset question at each \section
+\makeatother
+
+\DeclareCoupledCountersGroup{theorems}
+\DeclareCoupledCounters[name=theorems]{theorem,lemma}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem*{solution}{Solution}
+
+%\newcommands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\powerset}[1]{\mathscr{P}(#1)}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+%%%
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+%%%
+
+\title{\textbf{Heine-Borel Theorem Homework}}
+\author{Ata Berk Saraç}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+The following questions are designed to help you understand the Heine-Borel Theorem, which states that a subset of \( \mathbb{R} \) is compact if and only if it is closed and bounded. Submit your solutions by the due date. Good luck!
+
+\section*{Key Definitions}
+
+\begin{definition}[Compact Set] 
+    A set \( S \subseteq \mathbb{R} \) is compact if \emph{every open cover of \( S \) has a finite subcover}.
+\end{definition}
+
+\begin{definition}[Closed and Bounded] 
+    A set \( S \subseteq \mathbb{R} \) is \emph{closed} if it contains all its limit points. It is \emph{bounded} if there exists \( M > 0 \) such that \( |x| \leq M \) for all \( x \in S \).
+\end{definition}
+
+\section*{Questions}
+
+\begin{enumerate}
+    \item Is the set \( [0, 1) \) compact in \( \mathbb{R} \)? Justify your answer using the Heine-Borel Theorem.
+    \item True or False: Every bounded set in \( \mathbb{R} \) is compact. Explain your reasoning.
+    \item Determine whether the set \( S = \{ 1/n \mid n \in \mathbb{N} \} \) is compact. Provide a complete justification.
+    \item Prove that if \( S \subseteq \mathbb{R} \) is compact, then \( S \) is bounded.
+    \item Show that the set \( \mathbb{Q} \cap [0, 1] \) (the rational numbers in \( [0, 1] \)) is not compact.
+    \item Let \( A \) and \( B \) be compact subsets of \( \mathbb{R} \). Prove that their intersection \( A \cap B \) is compact.
+    \item Consider the open cover \( \{ (-n, n) \mid n \in \mathbb{N} \} \) for \( \mathbb{R} \). Explain why this cover has no finite subcover, and what this implies about the compactness of \( \mathbb{R} \).
+    \item Prove that if \( S \subseteq \mathbb{R} \) is compact and \( f : S \to \mathbb{R} \) is continuous, then \( f(S) \) is compact.
+    \item Is the set \( \{0\} \cup \{1, 2, 3, \ldots \} \) compact in \( \mathbb{R} \)? Justify your answer.
+    \item Construct an open cover for the set \( [0, \infty) \) that has no finite subcover, and use this to show that \( [0, \infty) \) is not compact.
+\end{enumerate}
+
+\begin{solution}[\textit{to Q1}]
+    $[0,1)$ is not compact in $\R$ since it is bounded but not closed. It is a necessity that 1 be included in the interval to be compact since it is a limit point. To see that 1 is a limit point of $[0,1)$, consider the sequence $\{x_n\}_{n\in\N}$ such that $x_n=1-\frac{1}{n}$.
+\end{solution}
+
+\begin{solution}[\textit{to Q2}]
+    This is false, e.g., the bounded set $(0,1)$ in $\R$ is not compact since it is not closed.
+\end{solution}
+
+\begin{solution}[\textit{to Q3}]
+    This set is clearly bounded by 0 from below and 1 from above. But, it doesn't contain one of its limit points which is 0. Since $\infty \not\in \N$ we thusly have, taking advantage of the extended real number system, that $1/\infty=0$ is not an element of this set. Thus, $S$ is not compact.
+\end{solution}
+
+\begin{solution}[\textit{to Q4}]
+    We investigate this question in two cases:
+    
+    Case 1. Let $S=\R$. Note that $\R$ is not bounded. We know that $\R=(-\infty,\infty)$, consider the open cover $\bigcup_{n\in\N}(n-1,n+1)$ where $n\in\Z$. Take the finite subcover $\bigcup_{i=1}^k{(n_i-1,n_i+1)}$, $k\in\N$, of $(n-1,n+1)$, this clearly does not cover the entirety of $\R$, if it did, then $\R$ would be bounded by a natural number which would lead to a contradiction. Thus, $\R$ is not compact.
+
+    Case 2. Let $S\subset \R$. Then $S\subseteq[a,\infty)$ or $S\subseteq(-\infty,b]$ where $a,b\in\R$. If $S$ is not bounded, then it means that either $S$ is a subset of $[a,\infty)$ stretching to infinity or a subset of $(-\infty,b]$ stretching to negative infinity. Either way, $S$ is not bounded. In such a case, by a similar argument in case 1, $S$ is not compact.
+\end{solution}
+
+\begin{solution}[\textit{to Q5}]
+    This set is not compact since it doesn't contain all of its limit points. Let $\{a_n\}_{n\in\N}$ be a recursive sequence such that $a_1=2$ and $a_{n+1}=\frac{1}{4}(a_n+\frac{2}{a_n})$; $\{a_n\}$ is a sequence of rational numbers converging to $\frac{\sqrt{2}}{2}\not\in \Q$, which means that $\frac{\sqrt{2}}{2}$ is a limit point not contained in $\Q$, thus $\Q$ is not closed; and hence $\Q$ is not compact.
+\end{solution}
+
+\begin{solution}[\textit{to Q6}]
+    In $\R$, compact $\Longleftrightarrow$ closed and bounded. Since $A$ and $B$ are compact, they are both closed; hence $A\cap B$ is closed (finite intersections of closed sets are closed). Since $A$ and $B$ are bounded, there exist real numbers $M_A,M_B>0$ with $|a|\le M_A$ for all $a\in A$ and $|b|\le M_B$ for all $b\in B$. Then every $\theta\in A\cap B$ satisfies $|\theta|\le\max\{M_A,M_B\}$. A similar argument follows for two lower bounds $m_A$ and $m_B$ for $A$ and $B$ respectively and choosing $\min\{m_A,m_B\}$, so $A\cap B$ is bounded. By the Heine–Borel theorem, $A\cap B$ is compact.
+\end{solution}
+
+\begin{solution}[\textit{to Q7}]
+    If $(-n,n)_{n=1}^k$, $k\in\N$, covers all of $\R$, then $\R$ is bounded below by $-k$ and bounded above by $k$, a contradiction. Thus, $\R$ is not compact.
+\end{solution}
+
+\begin{solution}[\textit{to Q8}]
+    Let $\{U_i\}_{i\in I}$ be any open cover of $f(S)$. Because $f$ is continuous, each preimage $f^{-1}(U_i)$ is open in $\R$, and
+    $$
+    \bigcup_{i\in I}f^{-1}(U_i)=f^{-1}\bigl({\bigcup_{i\in I}U_i}\bigr)=S.
+    $$
+    Thus $\{f^{-1}(U_i)\}_{i\in I}$ is an open cover of $S$. By compactness of $S$, there is a finite subcover $f^{-1}(U_{i_1}),\dots,f^{-1}(U_{i_k})$ that still covers $S$. But then
+    $$
+    f(S)\subseteq\bigcup_{j=1}^k U_{i_j},
+    $$
+    so $\{U_{i_1},\dots,U_{i_k}\}$ is a finite subcover of $f(S)$. Hence $f(S)$ is compact.
+\end{solution}
+
+\begin{solution}[\textit{to Q9}]
+    \( \{0\} \cup \{1, 2, 3, \ldots \} \) equals $\{0, 1, 2, 3, \ldots \}$ which contains all its limit points and is therefore closed, but it is not bounded since it stretches to infinity, thus it is not compact.
+\end{solution}
+
+\begin{solution}[\textit{to Q10}]
+    We have constructed the open cover $\bigcup_{n\in\N}(-\frac{1}{n},n)$, then the finite subcover $\bigcup_{n=1}^k(-\frac{1}{n},n)$ where $k\in\N$ is not a cover of $[0,\infty)$ (we explained why this is the case in Q4 and Q7). Thus $[0,\infty)$ is not compact.
+\end{solution}
+
+\end{document}
