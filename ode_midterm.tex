@@ -1,0 +1,303 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{calc}
+\usepackage{xassoccnt}
+\usepackage{fontenc}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{enumerate}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{chngcntr}
+\usepackage[inline]{enumitem}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+
+%\newtheorem
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[subsection]
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}{Lemma}[subsection]
+\newtheorem{corollary}{Corollary}[subsection]
+
+\newtheorem{example}{Example}[section]
+\newtheorem{exercise}{Exercise}
+\newtheorem{question}{Question}
+
+\DeclareCoupledCountersGroup{theorems}
+\DeclareCoupledCounters[name=theorems]{theorem,lemma}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem*{solution}{Solution}
+
+%\newcommands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\powerset}[1]{\mathscr{P}(#1)}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+%%%
+
+\title{ODE Midterm}
+\author{Ata Berk Saraç}
+\date{April 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{question}
+    Solve the following first order differential equations:
+    \begin{enumerate}[label=(\alph*)]
+        \item $\cos(x)dy=y(\sin(x)-y)dx,$
+        \item $(2x+y-3)dy=(x+2y-3)dx.$
+    \end{enumerate}
+\end{question}
+
+\begin{solution}
+    \begin{enumerate}[label=(\alph*)]
+        \item This D.E. turns into
+        \[y'-\tan(x) y=-\sec(x) y^2,\]
+        we recognize that it is a Bernoulli D.E.
+        It follows that
+        \[y^{-2}y'-\tan(x) y^{-1}=-\sec(x),\]
+        substituting $v=y^{-1}$, we have $v'=-y^{-2}y'$ and so
+        \[v'+\tan(x)v=\sec(x)\]
+        which is a linear D.E.
+        
+        Consider a function $\mu(x)$ such that $\mu'(x)=\mu(x) \tan(x)$
+        \[\mu(x) v'+\mu'(x) v=\mu(x) \sec(x).\]
+        Therefore, $\mu(x)=e^{\int \tan(x)\,dx}$ so that $\mu(x)=e^{-\ln|\cos(x)|}=\sec(x)$.
+        Thus, 
+        \[v(x)=\frac{\int \sec^2(x)\, dx + c}{\sec(x)}=\frac{\tan(x)+c}{\sec(x)}=\sin(x)+c\cos(x)\]
+        so that 
+        \[y(x)=\frac{1}{\sin(x)+c\cos(x)}\]
+        where $c$ is a constant.
+
+        \item Let $u=x-1$ and $v=y-1$. Then
+        $$\frac{dv}{du}=\frac{u+2v}{2u+v}$$
+
+        Assume that $z=\frac{v}{u}$, then $v'=z+uz'$; therefore 
+        $$u\frac{dz}{du}=\frac{1-z^2}{2+z}.$$
+        It follows that
+        $$\int \frac{1}{1+z}\,dz-\int \frac{-1}{1-z}\,dz-\frac12\int \frac{-2z}{1-z^2}\,dz=\int \frac{1}{u}\,du,$$
+        thus
+        $$\\ln|1+z|- \ln |1-z|-\frac12 \ln|1-z^2|=\ln\Bigl|\frac{1+z}{(1-z)^2}\Bigr|=\ln|u|+C,$$
+        we get
+        $$\frac{1}{1-z}=Cu,$$
+        and finally
+        $$z=1-\frac{1}{Cu}.$$
+
+        Now, we rearrange the equation above
+        $$\frac{y-1}{x-1}=1-\frac{1}{C(x-1)}$$
+        to get
+        $$y(x)=x-\frac{1}{C}$$
+        where $C$ is an arbitrary constant.
+    \end{enumerate}
+\end{solution}
+
+\begin{question}
+    Show that $y=1-4x$ is a particular solution of $y'=y^2+8xy+16x^2-5$, and find its general solution.
+\end{question}
+
+\begin{solution}
+    Call $y$, $y_p$; then $y_p=1-4x$ and $y'_p=-4$. We check the validity of $y_p$ as a solution:
+    $$y'_p=y_p^2+8xy_p+16x^2-5=(1-4x)^2+8x(1-4x)+16x^2-5=1-8x+16x^2+8x-32x^2+16x^2-5=-4,$$
+    therefore $y_p$ is in fact a particular solution for our D.E.
+
+    Observe that $y'=y^2+8xy+16x^2-5$ is a Riccati D.E. which can be turned into the form $(y+4x)^2-5$. So, let $u=y+4x$. Since $u'=y'+4$, we have $\frac{du}{dx}=u^2-1$ and so $\frac{du}{u^2-1}=dx$ which is a seperable equation.
+
+    It follows that 
+    $$\int \frac{du}{u^2-1}=\frac12 \int \Bigl(\frac{1}{u-1}-\frac{1}{u+1}\Bigr)\,du=\frac12 \ln \Bigl|\frac{u-1}{u+1}\Bigr|=x+C,$$
+    so that
+    $$\frac{u-1}{u+1}=Ke^{2x}$$
+    where $K=e^{2C}.$
+
+    We have that
+    $$u-1=Ke^{2x}(u+1),$$
+    $$u(x)=\frac{1+K^{2x}}{1-K^{2x}},$$
+    thus
+    $$y(x)=\frac{1+K^{2x}}{1-K^{2x}}-4x,$$
+    where $K\in\R$ is an arbitrary constant.
+\end{solution}
+
+\begin{question}
+    Show that $y_1=3x^2-1$ is a solution. Find the general solution of
+    $$(1-x^2)y''-2xy'+6y=0.\, (*)$$
+\end{question}
+
+\begin{solution}
+    Note that $y'_1=6x$ and $y''_1=6$. It follows that
+    $$(1-x^2)6-2x\cdot 6x+6(3x^2-1)=6-6x^2-12x^2+18x^2-6=0.$$
+    We can rewrite $(*)$ as
+    $$y''-\frac{2x}{1-x^2}y'+\frac{6}{1-x^2}y=0.$$
+
+    Now, we look for a second solution $y_2(x)$ such that
+    $$y_2(x)=v(x)y_1(x)$$
+    where $v(x)$ is a first-order D.E.
+    Compute
+    $$y'_2=v'y_1+vy'_1,\qquad y''_2=v''y_1+2(v'y'_1)+vy''_1;$$
+    therefore
+    $$\bigl[v''y_1+2(v'y'_1)+vy''_1\bigr]-\frac{2x}{1-x^2}\bigl[v'y_1+vy'_1+6xv\bigr]+\frac{6}{1-x^2}\bigl[vy_1\bigr]=0.$$
+    Since $y_1$ itself satisfies $(*)$, all the terms proportional to $v$ cancel out so letting $P(x)=\frac{2x}{1-x^2}$, we are left with
+    $$\bigl[v''y_1+2(v'y'_1)\bigr]-P\bigl[v'y_1\bigr]=0.$$
+    
+    Set $w(x)=v'(x)$. The equation above turns into
+    $$w'y_1+(y'_1-Py_1)w=0\implies \frac{dw}{dx}+\Bigl(\frac{y'_1}{y_1}-P\Bigr)w=0$$
+    which is a first order linear D.E.
+\end{solution}
+
+\begin{question}
+    Find an integrating factor in terms of $u=x^2+y^2$ for the differential equation and then solve it:
+    $$(x^3+xy^2-y)dx+xdy=0.$$
+\end{question}
+
+\begin{solution}
+    Note that $\frac{du}{dx} = 2x$ and $\frac{du}{dy} = 2y$.
+    The equation is not exact since \(\frac{\partial M}{\partial y} = 2xy - 1\) and \(\frac{\partial N}{\partial x} = 1\).
+    \begin{align*}
+        \frac{\mu'(u)}{\mu(u)}&= \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{2yM - 2xN}\\
+        &= \frac{1 - (2xy - 1)}{2y(x^3 + xy^2 - y) - 2x^2}\\
+        &=\frac{2(1 - xy)}{2(xy - 1)(x^2 + y^2)}\\
+        &= \frac{-1}{x^2 + y^2},
+    \end{align*}
+    thus
+    $$\mu(u)=e^{-\int\frac{1}{u}\,du}=e^{-\ln|u|}=\frac{1}{u}=\frac{1}{x^2+y^2}.$$
+
+    Multiplying by the integrating factor, the equation becomes:
+    \[
+    \left( x - \frac{y}{x^2 + y^2} \right)dx + \frac{x}{x^2 + y^2} dy = 0.
+    \]
+    Now, \(\frac{\partial M'}{\partial y} = \frac{\partial N'}{\partial x} = -\frac{x^2 - y^2}{(x^2 + y^2)^2}\), confirming exactness.
+    Integrate \(M'\) with respect to \(x\) to get
+    \[
+    \frac{x^2}{2} - \arctan\left(\frac{x}{y}\right) + h(y).
+    \]
+    Differentiate with respect to \(y\) and solve for \(h(y)\) to find \(h(y)\) is constant. Thus, the solution is:  
+    \[
+    \frac{x^2}{2} - \arctan\left(\frac{x}{y}\right) = C.
+    \]
+\end{solution}
+
+\begin{question}
+    Find the orthogonal curves of the family $y=-x-1+ce^x\,(*)$.
+\end{question}
+
+\begin{solution}
+    We have $\frac{dy}{dx}=ce^x-1\,(\cdot)$, adding $-(*)$ and $(\cdot)$ we get 
+    $$\frac{dy}{dx}=x+y,$$
+    $$
+     \frac{dy}{dx}\Big|_{\rm orth}
+     = -\frac{1}{\displaystyle \tfrac{dy}{dx}}
+     = -\frac{1}{x+y},
+     $$
+
+    thus
+    $$\frac{dx}{dy}=-x-y$$
+    is orthogonal to the curves defined by $(*)$.
+
+    Then,
+    $$\frac{dx}{dy}+x=-y$$
+    which is a first order linear D.E., it follows that the integrating factor
+    $$\mu(y)=e^{\int 1\,dy}=e^y,$$
+    multiply all terms by $\mu(y)$
+    $$e^y\frac{dx}{dy}+e^yx=\frac{d}{dy}(x e^y)=-e^y y.$$
+    Integrate with respect to $y$
+    $$x e^y =-\int y e^y\, dy + K = (1-y)\, e^y + K$$
+    so that 
+    $$x=1-y+K e^{-y}$$
+    is a family of curves orthogonal to the family $(*)$.
+\end{solution}
+
+\begin{question}
+    Let $y_1,y_2,\ldots,y_n$ be $n$ solutions of the homogeneous linear $n$-th order differential equation on an interval $I$. Then the set of solutions is linearly independent on $I$ if and only if $W(y_1,y_2,\ldots,y_n)\ne 0$ for every $x$ in the interval.
+\end{question}
+
+\begin{solution}
+    Suppose, to the contrary, that $W(y_1,y_2,\ldots,y_n)(x_0)\ne 0$ at some point $x_0\in I$ but the $y_i$ are linearly dependent. Then there exist constants $c_1,\dots,c_n$, not all zero, so that
+    $$
+    c_1y_1(x) + \cdots + c_ny_n(x)= 0
+    $$
+    on $I$.
+     
+    Differentiating $n-1$ times gives a homogeneous linear system
+    $$
+    \begin{bmatrix}
+    y_1(x_0)&\cdots&y_n(x_0)\\
+    y_1'(x_0)&\cdots&y_n'(x_0)\\
+    \vdots&&\vdots\\
+    y_1^{(n-1)}(x_0)&\cdots&y_n^{(n-1)}(x_0)
+    \end{bmatrix}
+    \begin{bmatrix}c_1\\\vdots\\c_n\end{bmatrix}
+    = 0.
+    $$
+    Call the matrices on the left-hand side $W$ and $c$ respectively. A nontrivial solution $c$ exists only if $W$ has determinant zero, since if $W$ had nonzero determinant, then it would be invertible, so that $W^{-1}Wc=c=0$.  But its determinant is exactly $W(y_1,y_2,\ldots,y_n)(x_0)$, which we assumed nonzero, a contradiction! Thus, $W(y_1,y_2,\ldots,y_n)(x)\ne 0$ implies that the set of solutions is linearly independent on $I$.
+    
+    Now, assume that the set of solutions is linearly independent on $I$. It follows that there exist $a_i$ corresponding to each $y_i$ such that
+    $$\sum_{i=1}^n {a_iy_i}=0,$$
+    differentiating one times we get
+    $$\sum_{i=1}^n {a_iy'_i}=0$$
+    and so on. We thus obtain that all columns are linearly independent, meaning that the rank of the matrix is $n$, since row and column ranks are equal, row rank is also $n$ which implies that the determinant of this matrix must be nonzero. The result follows.
+\end{solution}
+
+\begin{question}
+    Find the general solution of the following differential equations:
+    \begin{enumerate}[label=(\alph*)]
+        \item $y^{(4)}+8y''+16y=0,$
+        \item $9y''+6y'+5y=0$.
+    \end{enumerate}
+\end{question}
+
+\begin{solution}
+    \begin{enumerate}[label=(\alph*)]
+        \item Assume a solution of the form $y=e^{rx}$, then $y^{(i)}=r^ie^{rx}$ for $i\in \N$. Substituting, our equation becomes
+        $$r^4e^{rx}+8r^2e^{rx}+16e^{rx}=0,$$
+        since $e^{rx}\ne 0$, we get
+        $$r^4+8r^2+16=0.$$
+
+        Now, let $u=r^2$. The equation becomes
+        $$u^2+8u+16=(u+4)^2=0.$$
+        So, $u=-4$ is a repeated root of multiplicity 2, and so $r=\pm\sqrt{-4}=\pm2i$, following that $r=+2i$ and $r=-2i$ are both repeated roots of multiplicity 2. The repeated roots \( r = \pm 2i \) (each with multiplicity 2) lead to the general solution:
+        \[
+        y(x) = (C_1 + C_2 x)\cos(2x) + (C_3 + C_4 x)\sin(2x),
+        \]
+        where \( C_1, C_2, C_3, C_4 \) are constants.
+
+        \item For the differential equation \(9y'' + 6y' + 5y = 0\), we solve the characteristic equation \( 9r^2 + 6r + 5 = 0 \). Using the quadratic formula:
+        \[
+        r = \frac{-6 \pm \sqrt{36 - 180}}{18} = \frac{-6 \pm 12i}{18} = -\frac{1}{3} \pm \frac{2}{3}i.
+        \]
+        The general solution with complex roots \( \alpha \pm \beta i \) is:
+        \[
+        (x) = e^{-\frac{x}{3}} \left( C_1 \cos\left(\frac{2x}{3}\right) + C_2 \sin\left(\frac{2x}{3}\right) \right),
+        \]
+        where \( C_1, C_2 \) are constants.
+    \end{enumerate}
+\end{solution}
+
+\end{document}
