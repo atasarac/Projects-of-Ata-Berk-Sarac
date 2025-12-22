@@ -1,0 +1,19 @@
+name: Build LaTeX document
+on:
+  push:
+    paths:
+      - '**.tex'
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Compile LaTeX
+    uses: xu-cheng/latex-action@v2 
+    with:
+      root _file: ring_theory_midterm.tex
+    - name: Upload PDF artifact
+    uses: actions/upload-artifact@v3 
+    with:
+      name: ring_theory_midterm.pdf 
+      path: ring_theory_midterm.pdf
