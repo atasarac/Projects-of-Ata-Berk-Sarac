@@ -1,0 +1,433 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{calc}
+\usepackage{xassoccnt}
+\usepackage{fontenc}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{enumerate}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\usepackage{chngcntr}
+\usepackage[inline]{enumitem}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+%\newtheorem
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[subsection]
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}{Lemma}[subsection]
+\newtheorem{corollary}{Corollary}[subsection]
+
+\newtheorem{example}{Example}[section]
+\newtheorem{exercise}{Exercise}
+
+\newtheorem{question}{Question}      % define as before
+\makeatletter
+\@addtoreset{question}{section}      % reset question at each \section
+\makeatother
+
+\DeclareCoupledCountersGroup{theorems}
+\DeclareCoupledCounters[name=theorems]{theorem,lemma}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem*{solution}{Solution}
+
+%\newcommands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\powerset}[1]{\mathscr{P}(#1)}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+%%%
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+%%%
+
+\title{MATH 152 Homework Solutions}
+\author{Ata Berk Saraç}
+\date{April 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Advanced Calculus}
+
+\begin{question}
+    Determine the following:
+    \begin{enumerate}[label=(\roman*)]
+        \item $\lim_{n\to \infty} {\frac{n+1}{n^2+1}+\frac{n+2}{n^2+4}+\cdots+\frac{n+n}{n^2+n^2}},$
+        \item $\lim_{x\to 0^+} x^5(\int_0^x(t\sqrt{\sin{t}})dt)^{-2}.$
+    \end{enumerate}
+\end{question}
+
+\begin{solution}
+\begin{enumerate}[label=(\roman*)]
+\item We set 
+\[
+S_n=\sum_{k=1}^n\frac{n+k}{n^2+k^2}\;.
+\]
+Observe 
+\[
+\frac{n+k}{n^2+k^2}
+=\frac{n\bigl(1+\tfrac{k}{n}\bigr)}{n^2\bigl(1+(\tfrac{k}{n})^2\bigr)}
+=\frac{1}{n}\,\frac{1+\frac{k}{n}}{1+\bigl(\frac{k}{n}\bigr)^2}\,.
+\]
+Thus, 
+\[
+S_n=\frac{1}{n}\sum_{k=1}^n f\,\Bigl(\frac{k}{n}\Bigr)
+\quad\text{with}\quad
+f(x)=\frac{1+x}{1+x^2}\,.
+\]
+As $n\to\infty$, this Riemann sum converges to the integral
+\[
+\int_{0}^{1}\frac{1+x}{1+x^2}\,dx
+=\int_{0}^{1}\frac{1}{1+x^2}\,dx+\int_{0}^{1}\frac{x}{1+x^2}\,dx
+=\Bigl[\arctan x\Bigr]_{0}^{1}+\frac12\Bigl[\ln(1+x^2)\Bigr]_{0}^{1}
+=\frac\pi4+\frac12\ln2.
+\]
+Hence, 
+\[
+\lim_{n\to\infty}S_n=\frac\pi4+\frac12\ln2.
+\]
+
+\item Next, consider 
+\[
+L(x)=\int_{0}^{x}t\sqrt{\sin t}\,dt
+\]
+for small $x>0$.  Since this is not an elementary integral, we examine the behavior of the integrand as $x\to 0^+$ to get $\sin t\sim t$ as $t\to0$, $\sqrt{\sin t}\sim \sqrt t$, so the integrand $t\sqrt{\sin t}\sim t^{3/2}$.  Therefore
+\[
+L(x)\sim\int_{0}^{x}t^{3/2}\,dt=\frac{2}{5}x^{5/2},
+\]
+and so
+\[
+x^5\bigl(L(x)\bigr)^{-2}\sim x^5\Bigl(\tfrac{2}{5}x^{5/2}\Bigr)^{-2}
+=x^5\cdot\frac{25}{4}x^{-5}
+=\frac{25}{4}.
+\]
+Thus, 
+\[
+\lim_{x\to0^+}x^5\bigl(\,\smallint_{0}^{x}t\sqrt{\sin t}\,dt\bigr)^{-2}
+=\frac{25}{4}.
+\]
+\end{enumerate}
+\end{solution}
+
+\begin{question}
+    Prove that if $f,g$ are continuous on $[a,b]$ and $g'(t)$ is nonnegative and continuous on $[a,b]$, then there is a $c\in [a,b]$ such that
+    \[\int_a^b {f(t)g(t)dt}=g(a)\int_a^c{f(t)}dt+g(b)\int_c^b{f(t)}dt.\]
+\end{question}
+
+\begin{solution}  Define $F(t)=\int_a^t f(s)\,ds$ where $t\le b$.  By continuity, $F$ is differentiable and $F'(t)=f(t)$.  Then integrate by parts:
+\begin{align*}
+\int_a^b f(t)g(t)\,dt
+&=\int_a^b g(t)\,dF(t)\\
+&=\Bigl[F(t)g(t)\Bigr]_{a}^{b}-\int_a^b F(t)\,dg(t)\\
+&=F(b)g(b)-F(a)g(a)-\int_a^b F(t)g'(t)\,dt.
+\end{align*}
+
+Since $g'(t)\ge0$ and continuous, by the Mean Value Theorem for integrals there exists $c\in[a,b]$ such that
+\[
+\int_a^b F(t)g'(t)\,dt=F(c)\int_a^b g'(t)\,dt=F(c)\bigl(g(b)-g(a)\bigr).
+\]
+Hence,
+\begin{align*}
+\int_a^b f(t)g(t)\,dt
+&=F(b)g(b)-F(a)g(a)-F(c)g(b)+F(c)g(a)\\
+&=g(b)\bigl(F(b)-F(c)\bigr)+g(a)\bigl(F(c)-F(a)\bigr).
+\end{align*}
+Noting $F(c)-F(a)=\int_a^c f$ and $F(b)-F(c)=\int_c^b f$ yields the desired identity.
+\end{solution}
+
+\begin{question}
+    Given any numbers $p$ and $q$, show that
+    \[\int_0^1 {(1-x^p)^{\frac{1}{q}}}\,dx=\int_0^1 {(1-x^q)^{\frac{1}{p}}}\,dx.\]
+\end{question}
+
+\begin{solution}
+Consider the two integrals:
+$I_1 = \int_0^1 (1-x^p)^{1/q} dx$
+$I_2 = \int_0^1 (1-x^q)^{1/p} dx$
+
+Consider the integral $I_1$. Define $y = (1-x^p)^{1/q}$, raising both sides to the power $q$, we obtain $y^q = 1-x^p$, which is equivalent to the equation $x^p + y^q = 1$. Let's analyze the integration limits for $x$ and the corresponding values of $y$:
+
+When $x=0$, the equation becomes $0^p + y^q = 1$, or $y^q = 1$. Since $y=(1-x^p)^{1/q}$ must be real and non-negative (for $x \in [0,1]$), we have $y=1$.
+
+When $x=1$, the equation becomes $1^p + y^q = 1$, or $y^q = 0$, which gives $y=0$.
+
+Thus, geometrically, the curve $x^p + y^q = 1$ connects the points $(0, 1)$ and $(1, 0)$ in the first quadrant ($x \ge 0, y \ge 0$). The integral $I_1 = \int_0^1 y(x)\,dx = \int_0^1 (1-x^p)^{1/q}\,dx$ represents the area $A$ under this curve, bounded by the $x$ axis and the lines $x=0$ and $x=1$. Therefore, $I_1 = A$.
+
+Now, let's calculate this same area $A$ by integrating with respect to the variable $y$. To do this, we need to express $x$ as a function of $y$ using the equation of the curve $x^p + y^q = 1$.
+We have $x^p = 1-y^q$, which gives $x(y) = (1-y^q)^{1/p}$. The limits of integration for $y$ are from 0 to 1 (because when $x$ goes from 0 to 1, $y$ goes from 1 to 0, but to calculate the area with respect to the $y$ axis, we integrate from $y=0$ to $y=1$).
+The area $A$ can therefore also be written:
+\[A=\int_0^1 x(y)\,dy = \int_0^1 (1-y^q)^{1/p}\,dy.\]
+
+The value of a definite integral does not depend on the name of the variable of integration. We can therefore replace the dummy variable $y$ with $x$ without changing the value of the integral:
+\[A=\int_0^1 (1-x^q)^{1/p}\,dx.\]
+
+We recognize in this last expression the integral $I_2$. We have thus shown that $I_1 = A$ and $I_2 = A$. Therefore, $I_1 = I_2$.
+
+The equality is thus established:
+\[\int_0^1 {(1-x^p)^{\frac{1}{q}}}\,dx=\int_0^1 {(1-x^q)^{\frac{1}{p}}}\,dx.\]
+\end{solution}
+
+\begin{question}
+    Let $f(x)=x^2$ for $0\le x\le 1$. For the partition $P_n=(0,\frac{1}{n},\frac{2}{n},\ldots,\frac{n-1}{n},1)$ calculate $L(f,P_n)$ and $U(f,P_n)$.
+\end{question}
+
+\begin{solution}
+On each subinterval $\bigl[\tfrac{i-1}{n},\tfrac{i}{n}\bigr]$, $f(x)=x^2$ is strictly increasing, so
+\[
+m_i=\inf f=\Bigl(\tfrac{i-1}{n}\Bigr)^2,\quad
+M_i=\sup f=\Bigl(\tfrac{i}{n}\Bigr)^2,
+\]
+and $\Delta x_i=\tfrac1n$.  Thus
+\[
+L(f,P_n)=\sum_{i=1}^nm_i\Delta x_i
+=\frac1n\sum_{i=1}^n\Bigl(\tfrac{i-1}{n}\Bigr)^2
+=\frac{1}{n^3}\sum_{k=0}^{n-1}k^2
+=\frac{(n-1)n(2n-1)}{6n^3},
+\]
+\[
+U(f,P_n)=\sum_{i=1}^nM_i\Delta x_i
+=\frac1n\sum_{i=1}^n\Bigl(\tfrac{i}{n}\Bigr)^2
+=\frac{1}{n^3}\sum_{k=1}^{n}k^2
+=\frac{n(n+1)(2n+1)}{6n^3}.
+\]
+\end{solution}
+
+\begin{question}
+    Show that the set of rational numbers $\Q$ is neither an open nor closed set of $\R$.
+\end{question}
+
+\begin{solution}
+The set $\Q$ is not open in $\R$ because any open interval around a rational contains irrationals, so it fails to be a neighborhood of rationals alone, by the density of irrationals in $\R$.  It is not closed because its complement (the irrationals) is not open: every neighborhood of an irrational contains rationals, by the density of rationals in $\R$.  Hence $\Q$ is neither open nor closed.
+\end{solution}
+
+\begin{question}
+    Let $f\in C(a,b)$. Show that for any $y_0\in \R$, the set $\{x\in (a,b)\mid f(x)\ne y_0\}$ is open.
+\end{question}
+
+\begin{solution}
+Since $f$ is differentiable on $(a,b)$, it is continuous on $(a,b)$, it is implied that the preimage of the singleton $\{y_0\}$ is closed in $(a,b)$ -- if it was open $f$ couldn't be continuous.  Equivalently, the set 
+\[
+\{x\in(a,b)\mid f(x)=y_0\}
+\]
+is closed, so its complement
+\[
+\{x\in(a,b)\mid f(x)\ne y_0\}
+\]
+is open, as required.
+\end{solution}
+
+\section{Homework 2}
+
+\begin{question}
+    Assume that $F_i$ is a closed subset of $\R$ for all $1 \le i \le n$. Prove that
+    \[F_1 \times F_2 \times \cdots \times F_n.\]
+    is a closed subset of $\R^n$.
+\end{question}
+
+\begin{solution}
+Let each $F_i\subset\R$ be closed, and consider the product 
+\[
+F=F_1\times F_2\times\cdots\times F_n\subset\R^n.
+\]
+Take any sequence $(x^{(m)})_{m\ge1}\subset F$ converging in $\R^n$ to some $x=(x_1,\dots,x_n)$.  Writing 
+\[
+x^{(m)}=(x_1^{(m)},x_2^{(m)},\dots,x_n^{(m)}),
+\]
+componentwise convergence follows: for each $i$, $x_i^{(m)}\to x_i$ in $\R$.  But since $F_i$ is closed in $\R$, the limit $x_i$ must lie in $F_i$.  Hence $x\in F_1\times\cdots\times F_n=F$.  We have shown every convergent sequence in $F$ has its limit in $F$, so $F$ is closed in $\R^n$.
+\end{solution}
+
+\begin{question}
+    Assume that $u_1, u_2, \cdots , u_n\in \R^n$ such that $||u_i|| = 1$ and $u_i\cdot u_j = 0$ whenever $i\ne j$. For $\alpha_1, \cdots , \alpha_n \in \R$, prove that
+    \[||\alpha_1 u_1 + \alpha_2 u_2 + \cdots + \alpha_n u_n||=\sqrt{\alpha_1^2+\alpha_2^2+\cdots+\alpha_n^2}.\]
+\end{question}
+
+\begin{solution}
+We have unit vectors $u_1,\dots,u_n\in\R^n$ and $u_i\cdot u_j=0$ for $i\ne j$.  For arbitrary scalars $\alpha_1,\dots,\alpha_n$, set
+\[
+v=\sum_{i=1}^n\alpha_i u_i.
+\]
+Then,
+\[
+\|v\|^2=v\cdot v
+=\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_j\,(u_i\cdot u_j)
+=\sum_{i=1}^n\alpha_i^2\,(u_i\cdot u_i)
+=\sum_{i=1}^n\alpha_i^2\cdot1
+=\alpha_1^2+\cdots+\alpha_n^2.
+\]
+Taking square roots gives the desired result:
+$\|v\|=\sqrt{\alpha_1^2+\cdots+\alpha_n^2}.$
+\end{solution}
+
+\begin{question}
+    Assume $A$ is an open set and $B$ is a closed set. Determine if the following sets are definitely open, definitely closed, both, or neither. Prove your claim:
+    \begin{enumerate}[label=(\roman*)]
+        \item $A \setminus B = \{x \in A : x \not\in B\}$,
+        \item $(A^c\cup B^c)^c$,
+        \item $(A\cap B)\cup (A^c\cap B)$,
+        \item $\overbar A^{c}\cap\overbar A^{c}$.
+    \end{enumerate}
+\end{question}
+
+\begin{solution}
+\begin{enumerate}[label=(\roman*)]
+\item $A\setminus B = A\cap B^c$.  Here $A$ is open and $B^c$ is open (complement of a closed set), so their intersection is open. No further proof is needed.
+
+\item $(A^c\cup B^c)^c = A\cap B$.  If $A\subset B$ is bounded, then $A\cap B=B$ is closed; if $B\subset A$ bounded, then $A\cap B=A$ is closed. If one of them is not a proper subset of the other, then $A\cap B$ can be neither open nor closed, or it can be both open and closed.
+
+Special examples, but not a full-fledged proof, for our last claim: We are given $A \subset X$ open and $B \subset X$ closed.
+We consider the set $S = (A^c \cup B^c)^c$. By De Morgan's laws, $S = (A^c)^c \cap (B^c)^c = A \cap B$.
+
+To show that $S$ is not necessarily open, consider $X = \R$ with the usual topology. Let $A = (-1, 1)$ and $B = [0, 2]$. Then $S = A \cap B = [0, 1)$. This set is not open because $0 \in S$, but for all $\varepsilon > 0$, the interval $(-\varepsilon, \varepsilon)$ is not contained in $S$. Therefore, $S$ is neither open nor closed.
+
+To show that $S$ is not necessarily closed, consider $X = \R$ with the usual topology. Let $A = \R$ and $B = \emptyset$. Then $S = A \cap B = \R$. Therefore, $S$ is both open and closed.
+
+\item $(A\cap B)\,\cup\,(A^c\cap B)$.  Factor $B$:
+\[
+(A\cap B)\cup(A^c\cap B)=B\cap(A\cup A^c)=B\cap\R=B.
+\]
+Since $B$ is closed, this set is closed.
+
+\item I assume that $\overbar {A}^{c}\cap\overbar{A}^{c}$ is mistakenly written since it equals $\overbar{A}^{c}$ and is open since $\overbar A$ is closed. If $\overbar {A}^{c}\cap\overbar{B}^{c}=\overbar {A}\cup \overbar {B}$ is meant, then it is clearly closed since $\overbar {A}$ and $\overbar {B}$ are closed separately.
+\end{enumerate}
+\end{solution}
+
+\begin{question}
+    Let $A$ be an uncountable subset of $\R$ and let $B$ be the set of real numbers that divides $A$ into two uncountable sets; that is, $s \in B$ if both $\{x \in A : x < s\}$ and $\{x \in A : x > s\}$ are uncountable. Show $B$ is nonempty and open.
+\end{question}
+
+\begin{solution}
+    Let $A\subset \R$ be an uncountable set. Define the sets: $L(s)=\{x\in A:x<s\}=A\cap (-\infty,s)$, $R(s)=\{x\in A:x>s\}=A\cap (s,\infty)$. The set $B$ is defined as $B=\{s\in \R\mid L(s) \text{ is uncountable and } R(s) \text{ is uncountable}\}$. Define the sets: $S_L=\{s\in \R\mid L(s)\text{ is uncountable}\}$, $S_R=\{s\in \R\mid R(s) \text{ is uncountable}\}$
+    
+    Since $A$ is uncountable, it cannot be written as a countable union of countable sets, i.e., $A=\bigcup _{n\in \Z} (A\cap [n,n+1))$. At least one piece $A\cap [n_0, n_0+1)$ must be uncountable. If $L(s)$ were countable for all $s$, then $A=\bigcup_{n\in \Z} L(n)$ would be a countable union of countable sets, making $A$ countable. This contradicts the premise. Therefore, $S_L$ must be non-empty. Similarly, if $R(s)$ were countable for all $s$, then $A=\bigcup_{n\in \Z} R(-n)$ would be countable. Thus, $S_R$ must be non-empty.
+ 
+    Let $s_L=inf(S_L)$ and $s_R=sup(S_R)$. Since $S_L$ and $S_R$ are non-empty subsets of $\R$, $s_L$ and $s_R$ exist (they could be $\pm\infty$). We claim $s_L<s_R$. Assume for contradiction that $s_R\le s_L$. Choose any $s\in \R$. If $s<s_R$ (which implies $s<s_L$), then $s\in S_R$ (since $s_R=sup(S_R)$) and $s\in S_L$ (since $s_L=inf(S_L)$). So $R(s)$ is countable and $L(s)$ is countable. If $s\ge s_L$ (which implies $s\ge s_R$), then $s\in S_R$ (since $s_R=sup(S_R)$) and $s\in S_L$ (since $s_L=inf(S_L)$). So $R(s)$ is countable and $L(s)$ is countable.
+    In all cases, $L(s)$ and $R(s)$ are countable. But $A=L(s)\cup R(s)\cup (A\cap\{s\})$. This decomposition implies that $A$ is a union of two countable sets and possibly a singleton, making $A$ countable. This contradicts the premise that $A$ is uncountable. Therefore, the assumption $s_R\le s_L$ is false, and we must have $s_L<s_R$. Since $s_L<s_R$, the interval $B=(s_L,s_R)$ is thus non-empty.
+    
+    If $s\in B$, then each of the two sets $\{x<s\}$, $\{x>s\}$ is uncountable.  Removing only those points of $A$ falling into a small neighborhood of $s$ leaves both halves still uncountable.  Hence for sufficiently small $\varepsilon>0$, every $t\in(s-\varepsilon,s+\varepsilon)$ also lies in $B$.  Thus $B$ is open.
+\end{solution}
+
+\begin{question}
+    Only one of the following three descriptions can be realized. Provide an example that illustrates the viable description, and explain why the other two cannot exist.
+    \begin{enumerate}[label=(\roman*)]
+        \item A countable set contained in $[0,1]$ with no limit points.
+        \item A countable set contained in $[0,1]$ with no isolated points.
+        \item A set with an uncountable number of isolated points.
+    \end{enumerate}
+\end{question}
+
+\begin{solution}
+We examine which of the three descriptions can occur in $\R$:
+
+\begin{enumerate}[label=(\roman*)]
+\item “A countable set contained in $[0,1]$ with no limit points.”  Such a set would be infinite, discrete, and bounded.  But by Bolzano–Weierstrass, every infinite bounded subset of $\R$ has at least one limit point.  Hence an infinite countable discrete set in $\R$ \emph{cannot} exist.  If one allows “countable” to include finite, then a finite subset of $[0,1]$ has no limit points.
+
+\item “A countable set contained in $[0,1]$ with no isolated points.”  Consider $\Q\cap [0,1]$.
+
+\item “A set with an uncountable number of isolated points.”  If a point $x$ is isolated in a subset $S\subset\R$, there is an open interval around $x$ containing no other points of $S$.  Distinct isolated points give pairwise disjoint open intervals, but $\R$ cannot contain uncountably many disjoint intervals.  Hence there cannot be uncountably many isolated points in $\R$.
+
+\end{enumerate}
+
+\emph{Conclusion.}  The infinite version of (ii) can occur and is realizable. The trivial finite case of (i) is realizable (e.g.\ $\{0,1/2,1\}$), but (iii) is ruled out by Bolzano–Weierstrass and separability of $\R$.
+\end{solution}
+
+\begin{question}
+    \begin{enumerate}[label=(\Roman*)]
+        \item Prove that: If on an interval $[a, b]$, $f(x)$ is continuous and non-negative and $f(c) > 0$ for some $c \in [a, b]$, then $\int_a^b {f(x)}dx > 0$.
+        \item Deduce that if f, g are continuous and $f \le g$ of $[a, b]$ and also there exists $c \in [a, b]$ such that $f(c) < g(c)$, then $\int_a^b {f(x)}dx < \int_a^b {g(x)}dx$.
+    \end{enumerate}
+\end{question}
+
+\begin{solution}
+\begin{enumerate}[label=(\Roman*)]
+\item Suppose $f\ge0$ is continuous on $[a,b]$ and $f(c)>0$.  By continuity, there exists $\delta>0$ such that $f(x)>\tfrac12f(c)>0$ for all $x\in(c-\delta,c+\delta)\cap[a,b]$.  Then
+\[
+\int_a^b f(x)\,dx
+\ge\int_{c-\delta}^{c+\delta}f(x)\,dx
+>\int_{c-\delta}^{c+\delta}\tfrac12f(c)\,dx
+=\delta\,f(c)>0.
+\]
+
+\item If $f,g$ are continuous on $[a,b]$ with $f\le g$ and $f(c)<g(c)$ for some $c$, set $h=g-f$.  Then $h$ is continuous, $h\ge0$, and $h(c)>0$.  By part (I), $\int_a^b h>0$.  But $\int_a^b h=\int_a^b g-\int_a^b f$, so $\displaystyle\int_a^b f<\int_a^b g$.
+\end{enumerate}
+\end{solution}
+
+\begin{question}
+    Prove that $\int_0^{\pi/2} \frac{\sin{x}}{x(x+5)}\,dx < \frac{\pi}{10}$.
+\end{question}
+
+\begin{solution}
+For $0<x\le\pi/2$ we have $\sin x<x$.  Hence
+\[
+\frac{\sin x}{x(x+5)}<\frac{x}{x(x+5)}=\frac1{x+5}\le\frac1{5}.
+\]
+Therefore
+\[
+\int_0^{\pi/2} \frac{\sin{x}}{x(x+5)}\,dx<\int_0^{\pi/2}\frac1{5}\,dx=\frac1{5}\,\frac\pi2=\frac\pi{10},
+\]
+as claimed.
+\end{solution}
+
+\begin{question}
+    Let
+    \[
+    A=\Bigl\{1+\frac2n:n=1,2,3,\dots\Bigr\},\quad B=\{x\in\Q:0<x<1\}.
+    \]
+    Answer the following questions for each set:
+    \begin{enumerate}[label=(\roman*)]
+        \item What are the limit points?
+        \item Is the set open? Closed?
+        \item Does the set contain any isolated points?
+        \item Find the closure of the set.
+    \end{enumerate}
+\end{question}
+
+
+
+\begin{solution}
+Define 
+\[
+A=\Bigl\{1+\frac2n:n=1,2,3,\dots\Bigr\},\quad B=\{x\in\Q:0<x<1\}.
+\]
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Limit points.}  For $A$, as $n\to\infty$, $1+2/n\to1$, so the only accumulation point is $1$.  For $B$, the rationals are dense in $[0,1]$, so every point of $[0,1]$ (including endpoints) is a limit point of $B$.
+
+\item \emph{Openness/closedness.}  $A$ is neither open (isolated points only) nor closed (its closure $A\cup\{1\}$ strictly contains it).  $B$ is neither open (no interval around any rational lies wholly in $\Q$) nor closed (its complement is not open, since irrationals plus $\{0,1\}$ have rationals arbitrarily close).
+
+\item \emph{Isolated points.}  In $A$, each $1+2/n$ is isolated (there is a gap to its neighbors), so $A$ consists entirely of isolated points.  In $B$, no rational is isolated—every rational has other rationals arbitrarily nearby.
+
+\item \emph{Closure.}  $\overbar A=A\cup\{1\}$.  $\overbar B=[0,1]$.
+\end{enumerate}
+\end{solution}
+
+\end{document}
