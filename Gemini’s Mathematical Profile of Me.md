@@ -1,4 +1,4 @@
-# Gemini's Mathematics Description of Me
+# Gemini's Mathematical Profile of Me
 Question to Gemini: From what you know, how would you describe me mathematics-wise?
 
 Answer:
