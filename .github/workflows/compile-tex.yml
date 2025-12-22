@@ -1,14 +1,22 @@
-name: Build LaTeX document
+# Build every .tex file in the repo and upload PDFs as artifacts
+name: Build TeX PDFs
+
 on:
   push:
+    # run when any .tex file is changed
+    paths:
+      - '**/*.tex'
   pull_request:
-  workflow_dispatch:
+    paths:
+      - '**/*.tex'
+  workflow_dispatch: {}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Install TeX Live (common collections)
         run: |
@@ -24,19 +32,37 @@ jobs:
             pgf \
             texlive-pictures
 
-      - name: Compile LaTeX with latexmk
-        working-directory: .
+      - name: Compile all .tex files with latexmk
         run: |
           set -euo pipefail
-          # adjust path below if your .tex file is in a subfolder
-          latexmk -pdf -f -interaction=nonstopmode ring_theory_midterm.tex
+          mkdir -p artifacts
+          # compile every .tex file found (skip files under .github)
+          while IFS= read -r -d '' tex; do
+            echo "=== Building: $tex ==="
+            # Compile; do not fail the whole job if one .tex fails
+            if latexmk -pdf -f -interaction=nonstopmode "$tex"; then
+              pdf="${tex%.tex}.pdf"
+              log="${tex%.tex}.log"
+              # convert path to a safe filename to avoid collisions
+              safe_name="$(echo "$tex" | sed 's|^\./||; s|/|__|g')"
+              if [ -f "$pdf" ]; then
+                cp "$pdf" "artifacts/${safe_name%.tex}.pdf"
+              fi
+              if [ -f "$log" ]; then
+                cp "$log" "artifacts/${safe_name%.tex}.log"
+              fi
+            else
+              echo "Build failed for $tex — continuing to next file"
+            fi
+          done < <(find . -name '*.tex' -not -path "./.github/*" -print0)
 
-      - name: Upload artifacts (PDF and logs)
+      - name: List built artifacts
+        run: |
+          echo "Artifacts directory contents:"
+          ls -la artifacts || true
+
+      - name: Upload PDFs and logs
         uses: actions/upload-artifact@v3
         with:
-          name: ring_theory_midterm
-          path: |
-            ring_theory_midterm.pdf
-            ring_theory_midterm.log
-            ring_theory_midterm.fls
-            ring_theory_midterm.fdb_latexmk
+          name: tex-pdfs
+          path: artifacts/**
