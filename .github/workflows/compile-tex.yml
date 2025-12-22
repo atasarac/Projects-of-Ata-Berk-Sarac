@@ -1,19 +1,42 @@
 name: Build LaTeX document
 on:
   push:
-    paths:
-      - '**.tex'
+  pull_request:
+  workflow_dispatch:
+
 jobs:
-  build: 
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Compile LaTeX
-    uses: xu-cheng/latex-action@v2 
-    with:
-      root _file: ring_theory_midterm.tex
-    - name: Upload PDF artifact
-    uses: actions/upload-artifact@v3 
-    with:
-      name: ring_theory_midterm.pdf 
-      path: ring_theory_midterm.pdf
+      - uses: actions/checkout@v3
+
+      - name: Install TeX Live (common collections)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-bibtex-extra \
+            texlive-science \
+            latexmk \
+            pgf \
+            texlive-pictures
+
+      - name: Compile LaTeX with latexmk
+        working-directory: .
+        run: |
+          set -euo pipefail
+          # adjust path below if your .tex file is in a subfolder
+          latexmk -pdf -f -interaction=nonstopmode ring_theory_midterm.tex
+
+      - name: Upload artifacts (PDF and logs)
+        uses: actions/upload-artifact@v3
+        with:
+          name: ring_theory_midterm
+          path: |
+            ring_theory_midterm.pdf
+            ring_theory_midterm.log
+            ring_theory_midterm.fls
+            ring_theory_midterm.fdb_latexmk
