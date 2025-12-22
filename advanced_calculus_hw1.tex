@@ -1,0 +1,286 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{fontenc}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{enumerate}
+\usepackage{xcolor}
+\usepackage{microtype}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[hmargin=1.5cm,vmargin=1.5cm]{geometry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\powerset}[1]{\mathscr{P}(#1)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newenvironment{exercise}[1][Exercise]  % Optional argument [1] defaults to 'Exercise'
+  {\par\noindent\textbf{#1:} }  % Begin: Bold "Exercise:" followed by italic text
+  {\par}  % End: Close the paragraph
+
+
+\title{MATH 253 Homework 1}
+\author{Ata Berk Saraç / 12272005}
+\date{\today}
+
+\begin{document}
+\pagenumbering{gobble}
+ \maketitle
+
+ \subsection*{Page 202}
+
+ For the remaining of this homework, let $P_n(x_0)$ denote the $n-$th Taylor polynomial, of the function in the given problem, at $x_0$. If there are two or more functions, the chosen function will be indicated.
+
+ \begin{exercise}[Exercise 1]
+ For each of the following pairs of functions, determine the highest order of contact at the indicated point:
+ \begin{enumerate}[a.]
+     \item $f(x)=x^2$ and $g(x)=\sin x$ for all $x$; $x_0=0$.
+     \item $f(x) = e^{x^2}$ and $g(x) = 1 + 2x^2$ for all $x$; $x_0 = 0$.
+     \item $f(x)=\ln x$ and $g(x)=(x-1)^3+\ln x$ for all $x>0$; $x_0=1$.
+     \item $f(x)=\ln x$ and $g(x)=(x-1)^{200}+\ln x$ for all $x>0$; $x_0=1$. 
+ \end{enumerate}
+ \end{exercise}
+ 
+ \begin{proof}[Solutions of Exercise 1]
+ We have the following:
+ \begin{enumerate}[a.]
+     \item Let $f(x)=x^2$, and $g(x)=\sin x$ for all $x$; we see that $f'(0)=0$ while $g'(0)=1$. Thus, $f$ and $g$ have a contact of order $0$ at $x_0=0$.
+     
+     \item Let $f(x) = e^{x^2}$ and $g(x) = 1 + 2x^2$ for all $x$; so $f'(0)=g'(0)=0$ but $f''(0)=0$ while $g''(0)=4$ and so $f$ and $g$ have a contact of order $1$ at $x_0=0$.
+     
+     \item Let $f(x)=\ln x$ and $g(x)=(x-1)^3+\ln x$ for all $x>0$; it follows that $f'(1)=g'(1)=1$, $f''(1)=g''(1)=-1$ but $f'''(1)=1$ while $g'''(x)=7$. Hence, $f$ and $g$ have a contact of order $2$ at $x_0=1$.
+     
+     \item Let $f(x)=\ln x$ and $g(x)=(x-1)^{200}+\ln x$ for all $x>0$; since $g^{(k)}(1)=200\cdots(200-k+1)(1-1)+f^{(k)}(1)$ for $k=1,\ldots,199$, $f$ and $g$ have a contact of order $199$ at $x_0=1$.
+ \end{enumerate}
+ \end{proof}
+ 
+
+ \begin{exercise}[Exercise 2]
+ Compute the third Taylor polynomial for each of the following functions at the indicated point:
+ \begin{enumerate}[a.]
+     \item $f(x)=\int_0^x 1/(1+t^2)dt$ for all $x$; $x_0=0$.
+     \item $f(x)=\sin x$ for all $x$; $x_0=0$.
+     \item $f(x)=\sin x+x^{200}$ for all $x$; $x_0=0$.
+     \item $f(x)=\sqrt{2-x}$ for all $x<2$; $x_0=1$.
+ \end{enumerate}
+ \end{exercise}
+ 
+ \begin{proof}[Solutions of Exercise 2]
+ Note that $P_3(x_0) = f(x_0) + f'(0)(x-x_0) + \frac{f''(x_0)}{2}(x-x_0)^2 + \frac{f'''(x_0)}{6}(x-x_0)^3$.
+ \begin{enumerate}[a.]
+     \item If $f(x)=\int_0^x 1/(1+t^2)dt$ for all $x$. Note that, by the Fundamental Theorem of Calculus, $f'(x)=\frac{1}{1+x^2}$. Thus, we have $P_3(0) = x - \frac{1}{3}x^3$.
+     \item If $f(x)=\sin x$ for all $x$, then we have $P_3(0) = (x-1) - \frac{1}{6}(x-1)^3$.
+     \item If $f(x)=\sin x+x^{200}$ for all $x$, then we have $P_3(0) = (x-1) - \frac{1}{6}(x-1)^3$.
+     \item $f(x)=\sqrt{2-x}$ for all $x<2$, and so $P_3(1) = 1 + \frac{1}{2}(x-1) - \frac{1}{8}(x-1)^2 + \frac{1}{16}(x-1)^3$.
+ \end{enumerate}
+ \end{proof}
+
+ 
+ \begin{exercise}[Exercise 5]
+ Suppose that the function $f : \R \to \R$ has a second derivative and that
+ \[
+ \begin{cases} 
+      f''(x)+f(x)=e^{-x} & \text{for all } x \\
+      f(0)=0 & f'(0)=2.
+ \end{cases}
+ \]
+ Find the fourth Taylor polynomial for $f : \R \to \R$ at $x=0$.
+ \end{exercise}
+ 
+ \begin{proof}[Solution of Exercise 5]
+ Note that $P_4(x_0) = f(x_0) + f'(0)(x-x_0) + \frac{f''(x_0)}{2}(x-x_0)^2 + \frac{f'''(x_0)}{6}(x-x_0)^3 + \frac{f^{(4)}}{24}(x-x_0)^4$.
+ We see that $f''(0)=1$ and so taking the derivative of the given equation we get $f'(x) + f'''(x) = -e^{-x}$ and once more we get $f''(x) + f^{(4)} = e^{-x}$. These imply that $f'''(0) = -3$ and $f^{(4)}(0) = 4$. Hence, 
+ \[
+ P_4(0) = \frac{1}{6}x^4 - \frac{1}{2}x^3 + \frac{1}{2}x^2 + x.
+ \]
+ \end{proof}
+
+ 
+ \begin{exercise}[Exercise 6]
+ By replacing $x$ by $x_0 + (x-x_0)$ and using the Binomial Formula, show that any polynomial $p$ can be expressed in powers of $x-x_0$ in the form
+ \[
+ p(x)=c_0+c_1(x-x_0)+\cdots+c_n(x-x_0)^n.
+ \]
+ \end{exercise}
+ 
+ \begin{proof}[Solution of Exercise 6]
+ A polynomial of degree $n$ can be represented in the form:
+ \[
+ p(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^n.
+ \]
+ where $a_i$'s are constants.
+ Replacing $x$ by $x_0 + (x-x_0)$ we get,
+ \[
+ p(x) = a_0 + a_1 (x_0 + (x-x_0)) + a_2 (x_0 + (x-x_0))^2 + \cdots + a_n (x_0 + (x-x_0))^n.
+ \]
+ Note that
+ \[
+ \frac{n (n-1) (n-2) \cdots (n-k+1)}{k!} {x_0}^{n-k} = \frac{p^{(k)}(x_0)}{k!},
+ \]
+ and
+ \[
+ x^n = (x_0 + (x - x_0))^n = \sum_{k=0}^{n} \binom{n}{k} {x_0}^{n-k} (x-x_0)^k,
+ \]
+ which means that
+ \[
+ (x_0 + (x - x_0))^n = \sum_{k=0}^{n} \frac{p^{(k)}(x_0)}{k!} (x-x_0)^k.
+ \]
+ Also, observe that
+ \[
+ p^{(k)}(x_0) = k! \ a_k \Rightarrow
+ a_k = \frac{p^{(k)}(x_0)}{k!}
+ \]
+ Thus choosing new coefficients as follows,
+ \[
+ c_k = \sum_{k=0}^{n} \frac{p^{(k)}(x_0)}{k!} (x-x_0)^k
+ \]
+ we get the result as desired.
+ \end{proof}
+
+ 
+\subsection*{Pages 207 \& 208}
+
+ \begin{exercise}[Exercise 1]
+ Prove that
+ \[
+ 1+\frac{x}{2}-\frac{x^2}{8}<\sqrt{1+x}<1+\frac{x}{2} \quad \text{if } x>0.
+ \]
+ In particular, show that $1.375<\sqrt{2}<1.5$.
+ \end{exercise}
+ 
+ \begin{proof}[Proof of Exercise 1]
+ Let $f(x) = \sqrt{1+x}$ and assume that $x > 0$. It follows that $f'(x) = \frac{1}{2} (1+x)^{-\frac{1}{2}}$ and $f''(x) = -\frac{1}{4} (1+x)^{-\frac{3}{2}}$. By the Lagrange Remainder Theorem, there exists $a$ such that $0 < a < x$ and so 
+ \[
+ f(x) = f(0) + f'(0) x + \frac{f''(a)}{2} x^2 = 1 + \frac{x}{2} - (1+a)^{-\frac{3}{2}} \  \frac{x^2}{8},
+ \]
+ which implies that $1+\frac{x}{2}-\frac{x^2}{8}<\sqrt{1+x}<1+\frac{x}{2}$.
+ 
+ Taking $x=1$, we get $1.375<\sqrt{2}<1.5$.
+ \end{proof}
+ 
+ 
+ \begin{exercise}[Exercise 3]
+ Expand the polynomial $p(x)=x^5-x^3+x$ in powers of $x-1$. 
+ \end{exercise}
+ 
+ \begin{proof}[Solution of Exercise 3]
+ Let $p(x)=x^5-x^3+x$. First, we find $p(x)$'s derivatives up to its fifth derivative:
+ \[
+ p'(x) = 5x^4-3x^2+1,
+ p''(x) = 20x^3-6x,
+ p'''(x) = 60x^2-6,
+ p^{(4)}(x) = 120x,
+ p^{(5)}(x) = 120.
+ \]
+ Second, we substitute these derivatives in the Taylor polynomial:
+ \[
+ P_5(1) = 1 + 3 (x-1) + 7 (x-1)^2 + 9 (x-1)^3 + 5 (x-1)^4 + (x-1)^5.
+ \]
+ We get the solution as desired.
+ \end{proof}
+
+
+ 
+ \begin{exercise}[Exercise 5]
+ Prove that for every pair of numbers $x$ and $h$,
+ \[
+ |\sin(x + h)-(\sin x + h \cos x)| \le \frac{h^2}{2}.
+ \]
+ \end{exercise}
+ 
+ \begin{proof}[Proof of Exercise 5]
+ Let $x,h \in \R$ and say that $f(h) = \sin{x+h}$. It follows that
+ \[
+ \sin{x+h} = f(0) + f'(0) h + \frac{f''(0)}{2} h^2 = \sin{x} + h \cos{x} - \frac{\sin{x}}{2} h^2.
+ \]
+ and so
+ \[
+ \sin{x+h} - (\sin{x} + h \cos{x}) = - \frac{\sin{x}}{2} h^2.
+ \]
+ Since $-1 \le -\sin{x} \le 1$, we have
+ \[
+ |\sin(x + h)-(\sin x + h \cos x)| \le \frac{h^2}{2}.
+ \]
+ as asked.
+ \end{proof}
+
+ 
+ \begin{exercise}[Exercise 8]
+ A number to is said to be a root of order $k$ of the polynomial $p$ provided that $k$ is a natural number such that $p(x) = (x - x_0)^{k}r(x)$, where $r$ is a polynomial and $r(x_0) \ne 0$. Prove that $x_0$ is a root of order $k$ of the polynomial $p$ if and only if
+ \[
+ p(x_0)=p'(x_0)=\cdots=p^{(k-1)}(x_0)=0 \quad \text{and} \quad p^{(k)}(x_0)\ne 0.
+ \]
+ \end{exercise}
+ 
+ \begin{proof}[Proof of Exercise 8]
+ \end{proof}
+
+ 
+ \begin{exercise}[Exercise 9]
+ \begin{enumerate}[a.]
+     \item Show that for a natural number $n$,
+     \[
+     (1+x)^n=1+{n \choose 1}x+{n \choose 2}x^2+\cdots+{n \choose n-1}x^{n-1}+x^n.
+     \]
+     \item Use part (a) to provide another proof of the Binomial Formula.
+ \end{enumerate}
+ \end{exercise}
+ 
+ \begin{proof}[Solution of Exercise 9]
+  \begin{enumerate}[a.]
+     \item Let $n$ be a natural number. 
+
+     We use induction on $n$
+     
+     We have $(1+x)=1$.
+
+     Considering the statement is true for $n-1$ we shall get
+     \begin{align*}
+     (1+x)^n &= (1+x)(1+x)^{n-1}\\
+     &= (1+x) \sum_{k=0}^{n-1} \binom{n-1}{k} x^k \\
+     &= \sum_{k=0}^{n-1} \binom{n-1}{k} x^k + \sum_{k=0}^{n-1} \binom{n-1}{k} x^{k+1} \\
+     &= (1 + \sum_{k=1}^{n} \binom{n-1}{k} x^{k}) + \sum_{k=1}^{n} \binom{n-1}{k-1} x^{k} \\
+     &= 1 + \sum_{k=1}^{n} \left( \binom{n-1}{k} + \binom{n-1}{k-1} \right) x^{k} \\
+     &= 1 + \sum_{k=1}^{n} \binom{n}{k} x^{k}.
+     \end{align*}
+ \end{enumerate}
+ \end{proof}
+ 
+ 
+ 
+ \begin{exercise}[Exercise 10]
+ Suppose that each of the functions $f:\R \to \R$ and $g: \R \to \R$ has $n + 1$ continuous derivatives. Prove that $f$ and $g$ have contact of order $n$ at $0$ if and only if
+ \[
+ \lim_{x \to 0} \frac{f(x)-g(x)}{x^n}=0.
+ \]
+ \end{exercise}
+ 
+ \begin{proof}[Proof of Exercise 10]
+  Suppose that each of the functions $f : \R \to \R$ and $g : \R \to \R$ has $n + 1$ continuous derivatives. Therefore, $f^{(k)}(0) = g^{(k)}(0)$ for $k = 1,\ldots,n$.
+ Let $P_{n+1}(x) = f(x) - g(x)$. Thus,
+ \[
+ \frac{f(x) - g(x)}{x^n}\rightarrow 0 \text{ as } x \rightarrow 0.
+ \]
+ Now, assume that $\frac{f(x) - g(x)}{x^n}\rightarrow 0$ as $x \rightarrow 0$. It follows that for any $\varepsilon > 0$, we have a corresponding $\delta > 0$ so that
+ \[
+ |f(x) - g(x)| < \varepsilon |x|^n \text{ for } |x| < \delta,
+ \]
+ this implies our conclusion, that is $f^{(k)}(0) = g^{(k)}(0)$.
+ \end{proof}
+
+ \end{document}
