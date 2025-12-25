@@ -2,16 +2,17 @@
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry} % Adjusted margins to fit content nicely on ~5 pages
 \usepackage{amsmath, amssymb}
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage{booktabs} % For professional looking tables
-\usepackage{graphicx} % For including plots if you generate them
+\usepackage{booktabs}
+\usepackage{float}
 
-% Python styling
-\lstdefinestyle{mypython}{
-  language=Python,
+% Java styling
+\lstdefinestyle{myjava}{
+  language=Java,
   basicstyle=\footnotesize\ttfamily,
   keywordstyle=\color{blue}\bfseries,
   commentstyle=\color{olive}\itshape,
@@ -20,7 +21,9 @@
   breaklines=true,
   showstringspaces=false,
   numbers=left,
-  numberstyle=\tiny\color{gray}
+  numberstyle=\tiny\color{gray},
+  captionpos=b,
+  tabsize=4
 }
 
 \title{Comparative Analysis of Sorting and Search Algorithms}
@@ -31,16 +34,19 @@
 
 \maketitle
 
+\begin{abstract}
+This report provides a comparative performance analysis of fundamental sorting and search algorithms. We examine the runtime behavior of Merge Sort versus Quick Sort under varying data permutations, highlighting the impact of pivot selection. Additionally, we contrast the lookup efficiency of Binary Search Trees (BST) against Hash Tables, specifically demonstrating the degradation of unbalanced BSTs in worst-case scenarios. All implementations are provided in Java.
+\end{abstract}
+
 \section{Sorting Algorithms}
 
 \subsection{Overview}
-
-We compare two fundamental sorting algorithms: \textbf{Merge Sort} and \textbf{Quick Sort}. While both belong to the divide-and-conquer paradigm, their memory management and worst-case behaviors differ significantly.
+We compare \textbf{Merge Sort} and \textbf{Quick Sort}. While both are divide-and-conquer algorithms, they differ fundamentally in memory usage and stability.
 
 \begin{table}[h]
     \centering
     \caption{Time and Space Complexity Comparison}
-    \vspace{0.2cm}
+    \vspace{0.1cm}
     \begin{tabular}{@{}llll@{}}
         \toprule
         \textbf{Algorithm} & \textbf{Best Case} & \textbf{Average Case} & \textbf{Worst Case} \\ \midrule
@@ -53,165 +59,247 @@ We compare two fundamental sorting algorithms: \textbf{Merge Sort} and \textbf{Q
 \noindent
 \textbf{Key Distinctions:}
 \begin{itemize}
-    \item \textbf{Merge Sort}: Guarantees $\mathcal{O}(n \log n)$ but requires $\mathcal{O}(n)$ auxiliary space.
-    \item \textbf{Quick Sort}: Functions in-place ($\mathcal{O}(\log n)$ stack space) but degrades to quadratic time if the pivot selection is poor.
+    \item \textbf{Merge Sort}: Stable sort. Requires $\mathcal{O}(n)$ auxiliary space for merging.
+    \item \textbf{Quick Sort}: Unstable sort. Functions in-place (requiring only $\mathcal{O}(\log n)$ stack space) but suffers quadratic degradation if the pivot partitions the array poorly (e.g., 0 elements vs $n-1$).
 \end{itemize}
 
-\subsection{Experimental Setup}
+\subsection{Java Implementation & Experiment}
 
-To observe the asymptotic behavior, we increase the input size to $N=2000$. We test two scenarios:
+The Java implementation below includes a manual implementation of Merge Sort and Quick Sort (Lomuto partition scheme). The `main` method measures execution time in nanoseconds for higher precision.
 
-\begin{enumerate}
-    \item \textbf{Case 1 (Worst Case for Quick Sort)}: A strictly sorted array or an array with many duplicates. If Quick Sort uses the last element as a pivot, it will produce unbalanced partitions ($0$ vs $n-1$).
-    \item \textbf{Case 2 (Average Case)}: A randomized permutation of numbers. Quick Sort generally outperforms Merge Sort here due to better cache locality and lack of auxiliary array overhead.
-\end{enumerate}
+\begin{lstlisting}[style=myjava, caption={Sorting Algorithms Implementation}]
+import java.util.Arrays;
+import java.util.Random;
 
-\subsection{Python Implementation}
+public class SortingComparison {
 
-The following code implements an optimized Merge Sort (using indices to avoid slicing overhead) and a standard Quick Sort (Lomuto partition).
+    // --- Merge Sort Implementation ---
+    public static void mergeSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+            merge(arr, left, mid, right);
+        }
+    }
 
-\begin{lstlisting}[style=mypython]
-import time
-import random
-import sys
+    private static void merge(int[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+        int[] L = new int[n1];
+        int[] R = new int[n2];
 
-# Increase recursion depth for deep recursion in QuickSort worst case
-sys.setrecursionlimit(5000)
+        for (int i = 0; i < n1; ++i) L[i] = arr[left + i];
+        for (int j = 0; j < n2; ++j) R[j] = arr[mid + 1 + j];
 
-def merge_sort(arr, left, right):
-    if left < right:
-        mid = (left + right) // 2
-        merge_sort(arr, left, mid)
-        merge_sort(arr, mid + 1, right)
-        merge(arr, left, mid, right)
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) arr[k++] = L[i++];
+            else              arr[k++] = R[j++];
+        }
+        while (i < n1) arr[k++] = L[i++];
+        while (j < n2) arr[k++] = R[j++];
+    }
 
-def merge(arr, left, mid, right):
-    # Create temp arrays to hold data
-    n1 = mid - left + 1
-    n2 = right - mid
-    L = arr[left : mid + 1]
-    R = arr[mid + 1 : right + 1]
+    // --- Quick Sort Implementation (Lomuto Partition) ---
+    public static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
 
-    i = 0; j = 0; k = left
-    while i < n1 and j < n2:
-        if L[i] <= R[j]:
-            arr[k] = L[i]
-            i += 1
-        else:
-            arr[k] = R[j]
-            j += 1
-        k += 1
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
+            }
+        }
+        int temp = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = temp;
+        return i + 1;
+    }
 
-    while i < n1:
-        arr[k] = L[i]
-        i += 1
-        k += 1
-    while j < n2:
-        arr[k] = R[j]
-        j += 1
-        k += 1
+    public static void main(String[] args) {
+        int N = 2000; // Dataset size
+        System.out.println("Sorting Performance Analysis (N=" + N + ")");
+        
+        // Case 1: Sorted Data (Worst Case for QuickSort)
+        int[] sorted = new int[N];
+        for(int i=0; i<N; i++) sorted[i] = i;
 
-def quick_sort(arr, low, high):
-    if low < high:
-        p = partition(arr, low, high)
-        quick_sort(arr, low, p - 1)
-        quick_sort(arr, p + 1, high)
+        int[] m1 = sorted.clone();
+        long start = System.nanoTime();
+        mergeSort(m1, 0, N-1);
+        double tMergeSorted = (System.nanoTime() - start) / 1e6;
 
-def partition(arr, low, high):
-    pivot = arr[high]
-    i = low - 1
-    for j in range(low, high):
-        if arr[j] < pivot:
-            i += 1
-            arr[i], arr[j] = arr[j], arr[i]
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]
-    return i + 1
+        int[] q1 = sorted.clone();
+        start = System.nanoTime();
+        quickSort(q1, 0, N-1);
+        double tQuickSorted = (System.nanoTime() - start) / 1e6;
 
-def measure_time(sort_func, arr, *args):
-    start = time.time()
-    sort_func(arr, *args)
-    return time.time() - start
+        System.out.printf("Sorted Input -> Merge: %.3f ms | Quick: %.3f ms\n", 
+                          tMergeSorted, tQuickSorted);
 
-if __name__ == "__main__":
-    N = 2000
-    print(f"Running tests with N={N}...")
+        // Case 2: Random Data
+        int[] random = new int[N];
+        Random rand = new Random();
+        for(int i=0; i<N; i++) random[i] = rand.nextInt(100000);
 
-    # Case 1: Sorted Array (Worst case for Quick Sort with fixed pivot)
-    arr_sorted = list(range(N))
-    
-    # Copy for merge sort
-    arr1_m = arr_sorted[:]
-    t_merge1 = measure_time(merge_sort, arr1_m, 0, len(arr1_m)-1)
-    
-    # Copy for quick sort
-    arr1_q = arr_sorted[:] 
-    t_quick1 = measure_time(quick_sort, arr1_q, 0, len(arr1_q)-1)
+        int[] m2 = random.clone();
+        start = System.nanoTime();
+        mergeSort(m2, 0, N-1);
+        double tMergeRandom = (System.nanoTime() - start) / 1e6;
 
-    # Case 2: Random Array
-    arr_rand = [random.randint(0, 100000) for _ in range(N)]
-    
-    arr2_m = arr_rand[:]
-    t_merge2 = measure_time(merge_sort, arr2_m, 0, len(arr2_m)-1)
-    
-    arr2_q = arr_rand[:]
-    t_quick2 = measure_time(quick_sort, arr2_q, 0, len(arr2_q)-1)
+        int[] q2 = random.clone();
+        start = System.nanoTime();
+        quickSort(q2, 0, N-1);
+        double tQuickRandom = (System.nanoTime() - start) / 1e6;
 
-    print("\n--- Results ---")
-    print(f"Sorted Input (N={N}):")
-    print(f"Merge Sort: {t_merge1:.6f} s")
-    print(f"Quick Sort: {t_quick1:.6f} s")
-    
-    print(f"\nRandom Input (N={N}):")
-    print(f"Merge Sort: {t_merge2:.6f} s")
-    print(f"Quick Sort: {t_quick2:.6f} s")
+        System.out.printf("Random Input -> Merge: %.3f ms | Quick: %.3f ms\n", 
+                          tMergeRandom, tQuickRandom);
+    }
+}
 \end{lstlisting}
 
-\subsection{Expected Results}
-
-Running the code above with $N=2000$ yields distinct performance profiles:
-
+\subsection{Results Discussion}
+Running the Java simulation with $N=2000$ yields distinct performance profiles:
 \begin{itemize}
-    \item \textbf{Sorted Input}: Quick Sort is drastically slower ($\approx 0.15s - 0.20s$) compared to Merge Sort ($\approx 0.003s$). This confirms the $\mathcal{O}(n^2)$ degradation when the pivot fails to split the array effectively.
-    \item \textbf{Random Input}: Quick Sort ($\approx 0.002s$) is typically faster than Merge Sort ($\approx 0.004s$). The in-place nature of Quick Sort provides a constant-factor advantage over the array copying required by Merge Sort.
+    \item \textbf{Sorted Input}: Quick Sort is significantly slower. The Lomuto partition scheme picks the last element as the pivot; if the array is already sorted, this results in the most unbalanced partition possible, driving complexity to $\mathcal{O}(n^2)$. Merge Sort remains stable at $\mathcal{O}(n \log n)$.
+    \item \textbf{Random Input}: Quick Sort typically outperforms Merge Sort. Despite the same asymptotic complexity, Quick Sort benefits from better cache locality and lacks the overhead of array copying required by Merge Sort's auxiliary storage.
 \end{itemize}
+
+\newpage
 
 \section{Search Algorithms}
 
 \subsection{Data Structure Comparison}
-
-We analyze the efficiency of lookups in two structures:
+We compare the lookup efficiency of two distinct structures:
 \begin{enumerate}
-    \item \textbf{Binary Search Tree (BST)}: Vulnerable to degeneration into a linked list ($\mathcal{O}(N)$ lookup) if data is inserted in sorted order.
-    \item \textbf{Hash Table}: Uses a hash function to map keys to buckets. We use a prime number size ($M=97$) to reduce collisions.
+    \item \textbf{Binary Search Tree (BST)}: A hierarchical structure. If data is inserted in random order, height is $\mathcal{O}(\log n)$. However, inserting sorted data (e.g., $1, 2, 3...$) creates a "skewed" tree with height $\mathcal{O}(n)$, degenerating into a linked list.
+    \item \textbf{Hash Table}: Uses a hash function to map keys to buckets. We implement a "chaining" strategy using linked lists to handle collisions. With a good hash function and load factor, lookup is $\mathcal{O}(1)$.
 \end{enumerate}
 
-\subsection{Python Code}
+\subsection{Java Implementation}
+We provide a full implementation of a BST and a Chained Hash Table, alongside a driver to test Worst-Case insertion scenarios.
 
-\begin{lstlisting}[style=mypython]
-class HashTable:
-    def __init__(self, size=97): # Prime number size
-        self.size = size
-        self.table = [[] for _ in range(size)]
+\begin{lstlisting}[style=myjava, caption={Search Structures and Benchmark}]
+import java.util.LinkedList;
 
-    def _hash(self, key):
-        return hash(key) % self.size
+// --- 1. Binary Search Tree Implementation ---
+class BST {
+    class Node {
+        int key;
+        Node left, right;
+        public Node(int item) { key = item; left = right = null; }
+    }
+    Node root;
 
-    def put(self, key):
-        idx = self._hash(key)
-        if key not in self.table[idx]:
-            self.table[idx].append(key)
+    void insert(int key) { root = insertRec(root, key); }
 
-    def get(self, key):
-        idx = self._hash(key)
-        for k in self.table[idx]:
-            if k == key: return k
-        return None
+    Node insertRec(Node root, int key) {
+        if (root == null) { return new Node(key); }
+        if (key < root.key) root.left = insertRec(root.left, key);
+        else if (key > root.key) root.right = insertRec(root.right, key);
+        return root;
+    }
 
-# (BST Class omitted for brevity, assumed standard implementation)
-# ...
+    boolean search(int key) { return searchRec(root, key); }
+
+    boolean searchRec(Node root, int key) {
+        if (root == null) return false;
+        if (root.key == key) return true;
+        return key < root.key ? searchRec(root.left, key) : searchRec(root.right, key);
+    }
+}
+
+// --- 2. Hash Table Implementation (Chaining) ---
+class HashTable {
+    private int size;
+    private LinkedList<Integer>[] table;
+
+    @SuppressWarnings("unchecked")
+    public HashTable(int size) {
+        this.size = size;
+        table = new LinkedList[size];
+        for (int i = 0; i < size; i++) table[i] = new LinkedList<>();
+    }
+
+    private int hash(int key) {
+        return Math.abs(key) % size;
+    }
+
+    public void put(int key) {
+        int idx = hash(key);
+        if (!table[idx].contains(key)) {
+            table[idx].add(key);
+        }
+    }
+
+    public boolean get(int key) {
+        int idx = hash(key);
+        return table[idx].contains(key);
+    }
+}
+
+// --- 3. Benchmark Driver ---
+public class SearchComparison {
+    public static void main(String[] args) {
+        int N = 2000;
+        BST bst = new BST();
+        HashTable ht = new HashTable(97); // Prime size for better distribution
+
+        // 1. Worst Case Insertion: Sorted Data
+        // This causes the BST to become a Linked List (depth 2000)
+        System.out.println("Inserting " + N + " sorted integers...");
+        for (int i = 0; i < N; i++) {
+            bst.insert(i);
+            ht.put(i);
+        }
+
+        // 2. Worst Case Search: Searching for the last element (N-1)
+        System.out.println("Benchmarking search for key: " + (N-1));
+
+        long start = System.nanoTime();
+        boolean bstFound = bst.search(N - 1);
+        long bstTime = System.nanoTime() - start;
+
+        start = System.nanoTime();
+        boolean htFound = ht.get(N - 1);
+        long htTime = System.nanoTime() - start;
+
+        System.out.printf("BST Search Time:       %d ns\n", bstTime);
+        System.out.printf("Hash Table Search Time: %d ns\n", htTime);
+    }
+}
 \end{lstlisting}
 
-\noindent
-\textit{Note: The full testing script (omitted here for space) inserts 2000 sorted integers. The BST depth grows to 2000, causing slow lookups, while the Hash Table maintains near $\mathcal{O}(1)$ performance.}
+\subsection{Performance Analysis}
+
+\subsubsection{BST Degradation}
+In our experiment, we inserted keys $0$ through $1999$ sequentially.
+\begin{itemize}
+    \item Because the input was sorted, the BST did not branch. Every new node was added as the right child of the previous one.
+    \item \textbf{Depth}: The tree depth reached $N=2000$.
+    \item \textbf{Search Consequence}: Searching for the last inserted element ($1999$) required traversing 2000 nodes, resulting in $\mathcal{O}(N)$ performance, drastically slower than the theoretical $\mathcal{O}(\log n)$ average.
+\end{itemize}
+
+\subsubsection{Hash Table Resilience}
+The Hash Table (size $M=97$) handled the sequential data differently:
+\begin{itemize}
+    \item Keys were distributed across 97 buckets using the modulo operator.
+    \item Even with collisions (chaining), the average list length was approx $N/M \approx 20$.
+    \item \textbf{Result}: The lookup required traversing a short linked list, maintaining near $\mathcal{O}(1)$ performance relative to $N$.
+\end{itemize}
+
+\section{Conclusion}
+The choice of algorithm must be dictated by the data characteristics:
+\begin{enumerate}
+    \item For \textbf{Sorting}, Merge Sort provides safety guarantees for worst-case inputs, whereas Quick Sort offers speed for randomized data.
+    \item For \textbf{Searching}, a standard BST is risky if the input might be pre-sorted. In such cases, a Hash Table or a self-balancing tree (like an AVL or Red-Black tree) is strictly superior.
+\end{enumerate}
 
 \end{document}
