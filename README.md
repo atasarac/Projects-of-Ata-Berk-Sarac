@@ -1,8 +1,6 @@
 # Read Me
 Hi 👋 I'm Ata. I'm a student majoring in mathematics at Istanbul Bilgi University, currently in my third year. 
 
-Traditional CVs are designed to mention what one has done without delving into the specifics. I've created this repository to create a dynamic and useful CV, I'll try to share the projects I've completed.
-
-I've shared and will be sharing some (complete and uncomplete) tex files I've written over these years, especially in **Homeworks, Midterms, Finals, and Hard Problems** folders, just to show that I am, at least, familiar with the topics included.
+I've shared and will be sharing some (complete and uncomplete) tex files I've written over these years, especially in **Homeworks** and **Midterms** folders, just to show that I am, at least, familiar with the topics included.
 
 **Projects** folder is mostly about mathematics and CS projects that I have set to myself or gotten as HW in school.
